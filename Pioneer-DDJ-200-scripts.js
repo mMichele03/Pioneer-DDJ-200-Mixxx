@@ -36,112 +36,112 @@ var ValueKind = {
 
 var logicCtrl = {
     0x97: {
-        0x00: {deck: 1, ctrl: Ctrl.pad1, shift: false, valueKind: ValueKind.normal},
-        0x01: {deck: 1, ctrl: Ctrl.pad2, shift: false, valueKind: ValueKind.normal},
-        0x02: {deck: 1, ctrl: Ctrl.pad3, shift: false, valueKind: ValueKind.normal},
-        0x03: {deck: 1, ctrl: Ctrl.pad4, shift: false, valueKind: ValueKind.normal},
-        0x04: {deck: 1, ctrl: Ctrl.pad5, shift: false, valueKind: ValueKind.normal},
-        0x05: {deck: 1, ctrl: Ctrl.pad6, shift: false, valueKind: ValueKind.normal},
-        0x06: {deck: 1, ctrl: Ctrl.pad7, shift: false, valueKind: ValueKind.normal},
-        0x07: {deck: 1, ctrl: Ctrl.pad8, shift: false, valueKind: ValueKind.normal},
+        0x00: { deck: 1, ctrl: Ctrl.pad1, shift: false, valueKind: ValueKind.normal },
+        0x01: { deck: 1, ctrl: Ctrl.pad2, shift: false, valueKind: ValueKind.normal },
+        0x02: { deck: 1, ctrl: Ctrl.pad3, shift: false, valueKind: ValueKind.normal },
+        0x03: { deck: 1, ctrl: Ctrl.pad4, shift: false, valueKind: ValueKind.normal },
+        0x04: { deck: 1, ctrl: Ctrl.pad5, shift: false, valueKind: ValueKind.normal },
+        0x05: { deck: 1, ctrl: Ctrl.pad6, shift: false, valueKind: ValueKind.normal },
+        0x06: { deck: 1, ctrl: Ctrl.pad7, shift: false, valueKind: ValueKind.normal },
+        0x07: { deck: 1, ctrl: Ctrl.pad8, shift: false, valueKind: ValueKind.normal },
     },
     0x98: {
-        0x00: {deck: 1, ctrl: Ctrl.pad1, shift: true, valueKind: ValueKind.normal},
-        0x01: {deck: 1, ctrl: Ctrl.pad2, shift: true, valueKind: ValueKind.normal},
-        0x02: {deck: 1, ctrl: Ctrl.pad3, shift: true, valueKind: ValueKind.normal},
-        0x03: {deck: 1, ctrl: Ctrl.pad4, shift: true, valueKind: ValueKind.normal},
-        0x04: {deck: 1, ctrl: Ctrl.pad5, shift: true, valueKind: ValueKind.normal},
-        0x05: {deck: 1, ctrl: Ctrl.pad6, shift: true, valueKind: ValueKind.normal},
-        0x06: {deck: 1, ctrl: Ctrl.pad7, shift: true, valueKind: ValueKind.normal},
-        0x07: {deck: 1, ctrl: Ctrl.pad8, shift: true, valueKind: ValueKind.normal},
+        0x00: { deck: 1, ctrl: Ctrl.pad1, shift: true, valueKind: ValueKind.normal },
+        0x01: { deck: 1, ctrl: Ctrl.pad2, shift: true, valueKind: ValueKind.normal },
+        0x02: { deck: 1, ctrl: Ctrl.pad3, shift: true, valueKind: ValueKind.normal },
+        0x03: { deck: 1, ctrl: Ctrl.pad4, shift: true, valueKind: ValueKind.normal },
+        0x04: { deck: 1, ctrl: Ctrl.pad5, shift: true, valueKind: ValueKind.normal },
+        0x05: { deck: 1, ctrl: Ctrl.pad6, shift: true, valueKind: ValueKind.normal },
+        0x06: { deck: 1, ctrl: Ctrl.pad7, shift: true, valueKind: ValueKind.normal },
+        0x07: { deck: 1, ctrl: Ctrl.pad8, shift: true, valueKind: ValueKind.normal },
     },
     0x99: {
-        0x00: {deck: 2, ctrl: Ctrl.pad1, shift: false, valueKind: ValueKind.normal},
-        0x01: {deck: 2, ctrl: Ctrl.pad2, shift: false, valueKind: ValueKind.normal},
-        0x02: {deck: 2, ctrl: Ctrl.pad3, shift: false, valueKind: ValueKind.normal},
-        0x03: {deck: 2, ctrl: Ctrl.pad4, shift: false, valueKind: ValueKind.normal},
-        0x04: {deck: 2, ctrl: Ctrl.pad5, shift: false, valueKind: ValueKind.normal},
-        0x05: {deck: 2, ctrl: Ctrl.pad6, shift: false, valueKind: ValueKind.normal},
-        0x06: {deck: 2, ctrl: Ctrl.pad7, shift: false, valueKind: ValueKind.normal},
-        0x07: {deck: 2, ctrl: Ctrl.pad8, shift: false, valueKind: ValueKind.normal},
+        0x00: { deck: 2, ctrl: Ctrl.pad1, shift: false, valueKind: ValueKind.normal },
+        0x01: { deck: 2, ctrl: Ctrl.pad2, shift: false, valueKind: ValueKind.normal },
+        0x02: { deck: 2, ctrl: Ctrl.pad3, shift: false, valueKind: ValueKind.normal },
+        0x03: { deck: 2, ctrl: Ctrl.pad4, shift: false, valueKind: ValueKind.normal },
+        0x04: { deck: 2, ctrl: Ctrl.pad5, shift: false, valueKind: ValueKind.normal },
+        0x05: { deck: 2, ctrl: Ctrl.pad6, shift: false, valueKind: ValueKind.normal },
+        0x06: { deck: 2, ctrl: Ctrl.pad7, shift: false, valueKind: ValueKind.normal },
+        0x07: { deck: 2, ctrl: Ctrl.pad8, shift: false, valueKind: ValueKind.normal },
     },
     0x9A: {
-        0x00: {deck: 2, ctrl: Ctrl.pad1, shift: true, valueKind: ValueKind.normal},
-        0x01: {deck: 2, ctrl: Ctrl.pad2, shift: true, valueKind: ValueKind.normal},
-        0x02: {deck: 2, ctrl: Ctrl.pad3, shift: true, valueKind: ValueKind.normal},
-        0x03: {deck: 2, ctrl: Ctrl.pad4, shift: true, valueKind: ValueKind.normal},
-        0x04: {deck: 2, ctrl: Ctrl.pad5, shift: true, valueKind: ValueKind.normal},
-        0x05: {deck: 2, ctrl: Ctrl.pad6, shift: true, valueKind: ValueKind.normal},
-        0x06: {deck: 2, ctrl: Ctrl.pad7, shift: true, valueKind: ValueKind.normal},
-        0x07: {deck: 2, ctrl: Ctrl.pad8, shift: true, valueKind: ValueKind.normal},
+        0x00: { deck: 2, ctrl: Ctrl.pad1, shift: true, valueKind: ValueKind.normal },
+        0x01: { deck: 2, ctrl: Ctrl.pad2, shift: true, valueKind: ValueKind.normal },
+        0x02: { deck: 2, ctrl: Ctrl.pad3, shift: true, valueKind: ValueKind.normal },
+        0x03: { deck: 2, ctrl: Ctrl.pad4, shift: true, valueKind: ValueKind.normal },
+        0x04: { deck: 2, ctrl: Ctrl.pad5, shift: true, valueKind: ValueKind.normal },
+        0x05: { deck: 2, ctrl: Ctrl.pad6, shift: true, valueKind: ValueKind.normal },
+        0x06: { deck: 2, ctrl: Ctrl.pad7, shift: true, valueKind: ValueKind.normal },
+        0x07: { deck: 2, ctrl: Ctrl.pad8, shift: true, valueKind: ValueKind.normal },
     },
     0x90: {
-        0x0B: {deck: 1, ctrl: Ctrl.play, shift: false, valueKind: ValueKind.normal},
-        0x47: {deck: 1, ctrl: Ctrl.play, shift: true, valueKind: ValueKind.normal},
-        0x0C: {deck: 1, ctrl: Ctrl.cue, shift: false, valueKind: ValueKind.normal},
-        0x48: {deck: 1, ctrl: Ctrl.cue, shift: true, valueKind: ValueKind.normal},
-        0x3F: {deck: 1, ctrl: Ctrl.shift, shift: false, valueKind: ValueKind.normal},
-        0x58: {deck: 1, ctrl: Ctrl.sync, shift: false, valueKind: ValueKind.normal},
-        0x60: {deck: 1, ctrl: Ctrl.sync, shift: true, valueKind: ValueKind.normal},
-        0x54: {deck: 1, ctrl: Ctrl.headphone, shift: false, valueKind: ValueKind.normal},
-        0x68: {deck: 1, ctrl: Ctrl.headphone, shift: true, valueKind: ValueKind.normal},
-        0x36: {deck: 1, ctrl: Ctrl.jogWheelTouch, shift: false, valueKind: ValueKind.normal},
-        0x67: {deck: 1, ctrl: Ctrl.jogWheelTouch, shift: true, valueKind: ValueKind.normal},
+        0x0B: { deck: 1, ctrl: Ctrl.play, shift: false, valueKind: ValueKind.normal },
+        0x47: { deck: 1, ctrl: Ctrl.play, shift: true, valueKind: ValueKind.normal },
+        0x0C: { deck: 1, ctrl: Ctrl.cue, shift: false, valueKind: ValueKind.normal },
+        0x48: { deck: 1, ctrl: Ctrl.cue, shift: true, valueKind: ValueKind.normal },
+        0x3F: { deck: 1, ctrl: Ctrl.shift, shift: false, valueKind: ValueKind.normal },
+        0x58: { deck: 1, ctrl: Ctrl.sync, shift: false, valueKind: ValueKind.normal },
+        0x60: { deck: 1, ctrl: Ctrl.sync, shift: true, valueKind: ValueKind.normal },
+        0x54: { deck: 1, ctrl: Ctrl.headphone, shift: false, valueKind: ValueKind.normal },
+        0x68: { deck: 1, ctrl: Ctrl.headphone, shift: true, valueKind: ValueKind.normal },
+        0x36: { deck: 1, ctrl: Ctrl.jogWheelTouch, shift: false, valueKind: ValueKind.normal },
+        0x67: { deck: 1, ctrl: Ctrl.jogWheelTouch, shift: true, valueKind: ValueKind.normal },
     },
     0x91: {
-        0x0B: {deck: 2, ctrl: Ctrl.play, shift: false, valueKind: ValueKind.normal},
-        0x47: {deck: 2, ctrl: Ctrl.play, shift: true, valueKind: ValueKind.normal},
-        0x0C: {deck: 2, ctrl: Ctrl.cue, shift: false, valueKind: ValueKind.normal},
-        0x48: {deck: 2, ctrl: Ctrl.cue, shift: true, valueKind: ValueKind.normal},
-        0x3F: {deck: 2, ctrl: Ctrl.shift, shift: false, valueKind: ValueKind.normal},
-        0x58: {deck: 2, ctrl: Ctrl.sync, shift: false, valueKind: ValueKind.normal},
-        0x60: {deck: 2, ctrl: Ctrl.sync, shift: true, valueKind: ValueKind.normal},
-        0x54: {deck: 2, ctrl: Ctrl.headphone, shift: false, valueKind: ValueKind.normal},
-        0x68: {deck: 2, ctrl: Ctrl.headphone, shift: true, valueKind: ValueKind.normal},
-        0x36: {deck: 2, ctrl: Ctrl.jogWheelTouch, shift: false, valueKind: ValueKind.normal},
-        0x67: {deck: 2, ctrl: Ctrl.jogWheelTouch, shift: true, valueKind: ValueKind.normal},
+        0x0B: { deck: 2, ctrl: Ctrl.play, shift: false, valueKind: ValueKind.normal },
+        0x47: { deck: 2, ctrl: Ctrl.play, shift: true, valueKind: ValueKind.normal },
+        0x0C: { deck: 2, ctrl: Ctrl.cue, shift: false, valueKind: ValueKind.normal },
+        0x48: { deck: 2, ctrl: Ctrl.cue, shift: true, valueKind: ValueKind.normal },
+        0x3F: { deck: 2, ctrl: Ctrl.shift, shift: false, valueKind: ValueKind.normal },
+        0x58: { deck: 2, ctrl: Ctrl.sync, shift: false, valueKind: ValueKind.normal },
+        0x60: { deck: 2, ctrl: Ctrl.sync, shift: true, valueKind: ValueKind.normal },
+        0x54: { deck: 2, ctrl: Ctrl.headphone, shift: false, valueKind: ValueKind.normal },
+        0x68: { deck: 2, ctrl: Ctrl.headphone, shift: true, valueKind: ValueKind.normal },
+        0x36: { deck: 2, ctrl: Ctrl.jogWheelTouch, shift: false, valueKind: ValueKind.normal },
+        0x67: { deck: 2, ctrl: Ctrl.jogWheelTouch, shift: true, valueKind: ValueKind.normal },
     },
     0xB0: {
-        0x21: {deck: 1, ctrl: Ctrl.jogWheelTurn, shift: false, valueKind: ValueKind.normal},
-        0x22: {deck: 1, ctrl: Ctrl.jogWheelTurn, shift: true, valueKind: ValueKind.normal},
-        0x13: {deck: 1, ctrl: Ctrl.volume, shift: false, valueKind: ValueKind.msb},
-        0x33: {deck: 1, ctrl: Ctrl.volume, shift: false, valueKind: ValueKind.lsb},
-        0x00: {deck: 1, ctrl: Ctrl.tempo, shift: false, valueKind: ValueKind.msb},
-        0x20: {deck: 1, ctrl: Ctrl.tempo, shift: false, valueKind: ValueKind.lsb},
-        0x07: {deck: 1, ctrl: Ctrl.eqHigh, shift: false, valueKind: ValueKind.msb},
-        0x27: {deck: 1, ctrl: Ctrl.eqHigh, shift: false, valueKind: ValueKind.lsb},
-        0x0B: {deck: 1, ctrl: Ctrl.eqMiddle, shift: false, valueKind: ValueKind.msb},
-        0x2B: {deck: 1, ctrl: Ctrl.eqMiddle, shift: false, valueKind: ValueKind.lsb},
-        0x0F: {deck: 1, ctrl: Ctrl.eqLow, shift: false, valueKind: ValueKind.msb},
-        0x2F: {deck: 1, ctrl: Ctrl.eqLow, shift: false, valueKind: ValueKind.lsb},
+        0x21: { deck: 1, ctrl: Ctrl.jogWheelTurn, shift: false, valueKind: ValueKind.normal },
+        0x22: { deck: 1, ctrl: Ctrl.jogWheelTurn, shift: true, valueKind: ValueKind.normal },
+        0x13: { deck: 1, ctrl: Ctrl.volume, shift: false, valueKind: ValueKind.msb },
+        0x33: { deck: 1, ctrl: Ctrl.volume, shift: false, valueKind: ValueKind.lsb },
+        0x00: { deck: 1, ctrl: Ctrl.tempo, shift: false, valueKind: ValueKind.msb },
+        0x20: { deck: 1, ctrl: Ctrl.tempo, shift: false, valueKind: ValueKind.lsb },
+        0x07: { deck: 1, ctrl: Ctrl.eqHigh, shift: false, valueKind: ValueKind.msb },
+        0x27: { deck: 1, ctrl: Ctrl.eqHigh, shift: false, valueKind: ValueKind.lsb },
+        0x0B: { deck: 1, ctrl: Ctrl.eqMiddle, shift: false, valueKind: ValueKind.msb },
+        0x2B: { deck: 1, ctrl: Ctrl.eqMiddle, shift: false, valueKind: ValueKind.lsb },
+        0x0F: { deck: 1, ctrl: Ctrl.eqLow, shift: false, valueKind: ValueKind.msb },
+        0x2F: { deck: 1, ctrl: Ctrl.eqLow, shift: false, valueKind: ValueKind.lsb },
     },
     0xB1: {
-        0x21: {deck: 2, ctrl: Ctrl.jogWheelTurn, shift: false, valueKind: ValueKind.normal},
-        0x22: {deck: 2, ctrl: Ctrl.jogWheelTurn, shift: true, valueKind: ValueKind.normal},
-        0x13: {deck: 2, ctrl: Ctrl.volume, shift: false, valueKind: ValueKind.msb},
-        0x33: {deck: 2, ctrl: Ctrl.volume, shift: false, valueKind: ValueKind.lsb},
-        0x00: {deck: 2, ctrl: Ctrl.tempo, shift: false, valueKind: ValueKind.msb},
-        0x20: {deck: 2, ctrl: Ctrl.tempo, shift: false, valueKind: ValueKind.lsb},
-        0x07: {deck: 2, ctrl: Ctrl.eqHigh, shift: false, valueKind: ValueKind.msb},
-        0x27: {deck: 2, ctrl: Ctrl.eqHigh, shift: false, valueKind: ValueKind.lsb},
-        0x0B: {deck: 2, ctrl: Ctrl.eqMiddle, shift: false, valueKind: ValueKind.msb},
-        0x2B: {deck: 2, ctrl: Ctrl.eqMiddle, shift: false, valueKind: ValueKind.lsb},
-        0x0F: {deck: 2, ctrl: Ctrl.eqLow, shift: false, valueKind: ValueKind.msb},
-        0x2F: {deck: 2, ctrl: Ctrl.eqLow, shift: false, valueKind: ValueKind.lsb},
+        0x21: { deck: 2, ctrl: Ctrl.jogWheelTurn, shift: false, valueKind: ValueKind.normal },
+        0x22: { deck: 2, ctrl: Ctrl.jogWheelTurn, shift: true, valueKind: ValueKind.normal },
+        0x13: { deck: 2, ctrl: Ctrl.volume, shift: false, valueKind: ValueKind.msb },
+        0x33: { deck: 2, ctrl: Ctrl.volume, shift: false, valueKind: ValueKind.lsb },
+        0x00: { deck: 2, ctrl: Ctrl.tempo, shift: false, valueKind: ValueKind.msb },
+        0x20: { deck: 2, ctrl: Ctrl.tempo, shift: false, valueKind: ValueKind.lsb },
+        0x07: { deck: 2, ctrl: Ctrl.eqHigh, shift: false, valueKind: ValueKind.msb },
+        0x27: { deck: 2, ctrl: Ctrl.eqHigh, shift: false, valueKind: ValueKind.lsb },
+        0x0B: { deck: 2, ctrl: Ctrl.eqMiddle, shift: false, valueKind: ValueKind.msb },
+        0x2B: { deck: 2, ctrl: Ctrl.eqMiddle, shift: false, valueKind: ValueKind.lsb },
+        0x0F: { deck: 2, ctrl: Ctrl.eqLow, shift: false, valueKind: ValueKind.msb },
+        0x2F: { deck: 2, ctrl: Ctrl.eqLow, shift: false, valueKind: ValueKind.lsb },
     },
     0xB6: {
-        0x17: {deck: 1, ctrl: Ctrl.filter, shift: false, valueKind: ValueKind.msb},
-        0x37: {deck: 1, ctrl: Ctrl.filter, shift: false, valueKind: ValueKind.lsb},
-        0x18: {deck: 2, ctrl: Ctrl.filter, shift: false, valueKind: ValueKind.msb},
-        0x38: {deck: 2, ctrl: Ctrl.filter, shift: false, valueKind: ValueKind.lsb},
-        0x1F: {deck: 0, ctrl: Ctrl.crossfader, shift: false, valueKind: ValueKind.msb},
-        0x3F: {deck: 0, ctrl: Ctrl.crossfader, shift: false, valueKind: ValueKind.lsb},
+        0x17: { deck: 1, ctrl: Ctrl.filter, shift: false, valueKind: ValueKind.msb },
+        0x37: { deck: 1, ctrl: Ctrl.filter, shift: false, valueKind: ValueKind.lsb },
+        0x18: { deck: 2, ctrl: Ctrl.filter, shift: false, valueKind: ValueKind.msb },
+        0x38: { deck: 2, ctrl: Ctrl.filter, shift: false, valueKind: ValueKind.lsb },
+        0x1F: { deck: 0, ctrl: Ctrl.crossfader, shift: false, valueKind: ValueKind.msb },
+        0x3F: { deck: 0, ctrl: Ctrl.crossfader, shift: false, valueKind: ValueKind.lsb },
     },
     0x96: {
-        0x63: {deck: 0, ctrl: Ctrl.master, shift: false, valueKind: ValueKind.normal},
-        0x78: {deck: 0, ctrl: Ctrl.master, shift: true, valueKind: ValueKind.normal},
-        0x59: {deck: 0, ctrl: Ctrl.central, shift: false, valueKind: ValueKind.normal},
-        0x5A: {deck: 0, ctrl: Ctrl.central, shift: true, valueKind: ValueKind.normal},
+        0x63: { deck: 0, ctrl: Ctrl.master, shift: false, valueKind: ValueKind.normal },
+        0x78: { deck: 0, ctrl: Ctrl.master, shift: true, valueKind: ValueKind.normal },
+        0x59: { deck: 0, ctrl: Ctrl.central, shift: false, valueKind: ValueKind.normal },
+        0x5A: { deck: 0, ctrl: Ctrl.central, shift: true, valueKind: ValueKind.normal },
     },
 };
 
@@ -168,46 +168,38 @@ var BottomPadsMode = {
 var mode = {
     master: false,
     choosePadMode: false,
-    topPads: {
-        1: TopPadsMode.hotcues1,
-        2: TopPadsMode.hotcues1,
+    1: {
+        topPads: TopPadsMode.hotcues1,
+        bottomPads: BottomPadsMode.padFx,
+        scratch: false,
+        trackIsPlaying: false,
+        onCuePosition: true,
+        shift: false,
     },
-    bottomPads: {
-        1: BottomPadsMode.padFx,
-        2: BottomPadsMode.padFx,
-    },
-    scratch: {
-        1: false,
-        2: false,
-    },
-    trackIsPlaying: {
-        1: false,
-        2: false,
-    },
-    onCuePosition: {
-        1: true,
-        2: true,
-    },
-    shift: {
-        1: false,
-        2: false,
+    2: {
+        topPads: TopPadsMode.hotcues1,
+        bottomPads: BottomPadsMode.padFx,
+        scratch: false,
+        trackIsPlaying: false,
+        onCuePosition: true,
+        shift: false,
     },
 };
 
 genericCtrl = function (mainFunc) {
-    return {master: null, choosePadMode: null, generic: mainFunc, topPad: null, bottomPad: null};
+    return { master: null, choosePadMode: null, generic: mainFunc, topPad: null, bottomPad: null };
 };
 
 genericAndMasterCtrl = function (masterFunc, mainFunc) {
-    return {master: masterFunc, choosePadMode: null, generic: mainFunc, topPad: null, bottomPad: null};
+    return { master: masterFunc, choosePadMode: null, generic: mainFunc, topPad: null, bottomPad: null };
 };
 
 topPad = function (masterFunc, choosePadModeFunc, hotcues1Func, hotcues2Func, knobFxFunc, padFxFunc) {
-    return {master: masterFunc, choosePadMode: choosePadModeFunc, generic: null, topPad: [hotcues1Func, hotcues2Func, knobFxFunc, padFxFunc], bottomPad: null};
+    return { master: masterFunc, choosePadMode: choosePadModeFunc, generic: null, topPad: [hotcues1Func, hotcues2Func, knobFxFunc, padFxFunc], bottomPad: null };
 };
 
 bottomPad = function (masterFunc, choosePadModeFunc, loopFunc, rollFunc, samplesFunc, padFXFunc) {
-    return {master: masterFunc, choosePadMode: choosePadModeFunc, generic: null, topPad: null, bottomPad: [loopFunc, rollFunc, samplesFunc, padFXFunc]};
+    return { master: masterFunc, choosePadMode: choosePadModeFunc, generic: null, topPad: null, bottomPad: [loopFunc, rollFunc, samplesFunc, padFXFunc] };
 };
 
 var byteData = {
@@ -226,7 +218,7 @@ valueHandler = function (deckNumber, ctrl, kind, value) {
     // Create the byteData object if it doesn't already exist
     var data = byteData[deckNumber][ctrl];
     if (data === undefined) {
-        data = {msb: null, lsb: null, fullValue: BYTE_DATA_MIDDLE_FULL_VALUE}
+        data = { msb: null, lsb: null, fullValue: BYTE_DATA_MIDDLE_FULL_VALUE }
         byteData[deckNumber][ctrl] = data;
         // print("NEW");
     }
@@ -254,145 +246,145 @@ valueHandler = function (deckNumber, ctrl, kind, value) {
     return data.fullValue;
 };
 
-volumeEventHandler = function(deckNumber, fullValue) {
+volumeEventHandler = function (deckNumber, fullValue) {
     engine.setParameter("[Channel" + deckNumber + "]", "volume", fullValue / BYTE_DATA_MAX_FULL_VALUE);
 };
 
-tempoEventHandler = function(deckNumber, fullValue) {
+tempoEventHandler = function (deckNumber, fullValue) {
     engine.setValue("[Channel" + deckNumber + "]", "rate", ((fullValue / BYTE_DATA_MAX_FULL_VALUE) - 0.5) * 2);
 };
 
-crossfaderEventHandler = function(deckNumber, fullValue) {
+crossfaderEventHandler = function (deckNumber, fullValue) {
     engine.setParameter("[Master]", "crossfader", fullValue / BYTE_DATA_MAX_FULL_VALUE);
 };
 
-eqHighEventHandler = function(deckNumber, fullValue) {
+eqHighEventHandler = function (deckNumber, fullValue) {
     engine.setParameter("[EqualizerRack1_[Channel" + deckNumber + "]_Effect1]", "parameter3", fullValue / BYTE_DATA_MAX_FULL_VALUE);
 };
 
-eqMiddleEventHandler = function(deckNumber, fullValue) {
+eqMiddleEventHandler = function (deckNumber, fullValue) {
     engine.setParameter("[EqualizerRack1_[Channel" + deckNumber + "]_Effect1]", "parameter2", fullValue / BYTE_DATA_MAX_FULL_VALUE);
 };
 
-eqLowEventHandler = function(deckNumber, fullValue) {
+eqLowEventHandler = function (deckNumber, fullValue) {
     engine.setParameter("[EqualizerRack1_[Channel" + deckNumber + "]_Effect1]", "parameter1", fullValue / BYTE_DATA_MAX_FULL_VALUE);
 };
 
-filterEventHandler = function(deckNumber, fullValue) {
+filterEventHandler = function (deckNumber, fullValue) {
     engine.setParameter("[QuickEffectRack1_[Channel" + deckNumber + "]]", "super1", fullValue / BYTE_DATA_MAX_FULL_VALUE);
 };
 
 // Jog wheels const
-const ALPHA = 1.0/8;
-const BETA = ALPHA/32;
+const ALPHA = 1.0 / 8;
+const BETA = ALPHA / 32;
 const JOG_MULTIPLIER = 0.75;
 
-jogWheelTouchEventHandler = function(deckNumber, value) {
+jogWheelTouchEventHandler = function (deckNumber, value) {
     if (value == 0x7F) {
-        engine.scratchEnable(deckNumber, 400, 33+1/3, ALPHA, BETA);
-        mode.scratch[deckNumber] = true;
+        engine.scratchEnable(deckNumber, 400, 33 + 1 / 3, ALPHA, BETA);
+        mode[deckNumber].scratch = true;
         print("SCRATCH ON");
     } else {
         engine.scratchDisable(deckNumber);
-        mode.scratch[deckNumber] = false;
+        mode[deckNumber].scratch = false;
         print("SCRATCH OFF");
 
-        if (mode.onCuePosition[deckNumber]) {
+        if (mode[deckNumber].onCuePosition) {
             engine.setParameter("[Channel" + deckNumber + "]", "cue_gotoandstop", 1);
         }
     }
 };
 
-jogWheelTurnEventHandler = function(deckNumber, value) {
+jogWheelTurnEventHandler = function (deckNumber, value) {
     value = value - 64;
 
-    if (mode.scratch[deckNumber]) {
+    if (mode[deckNumber].scratch) {
         engine.scratchTick(deckNumber, value); // Scratch
         print("scratching");
-    } else if (mode.trackIsPlaying[deckNumber]) {
+    } else if (mode[deckNumber].trackIsPlaying) {
         engine.setValue("[Channel" + deckNumber + "]", 'jog', value * JOG_MULTIPLIER); // Pitch bend
         print("pitch bend");
-    } else if (mode.onCuePosition[deckNumber]) {
+    } else if (mode[deckNumber].onCuePosition) {
         engine.setParameter("[Channel" + deckNumber + "]", "cue_gotoandstop", 1);
     }
 };
 
-playEventHandler = function(deckNumber, value) {
+playEventHandler = function (deckNumber, value) {
     if (value == 0x7F) {
-        if (mode.trackIsPlaying[deckNumber]) {
+        if (mode[deckNumber].trackIsPlaying) {
             engine.setParameter("[Channel" + deckNumber + "]", "play", 0);
-            mode.trackIsPlaying[deckNumber] = false;
+            mode[deckNumber].trackIsPlaying = false;
         } else {
             engine.setParameter("[Channel" + deckNumber + "]", "play", 1);
-            mode.trackIsPlaying[deckNumber] = true;
-            mode.onCuePosition[deckNumber] = false;
+            mode[deckNumber].trackIsPlaying = true;
+            mode[deckNumber].onCuePosition = false;
         }
     }
 };
 
-cueEventHandler = function(deckNumber, value) {
+cueEventHandler = function (deckNumber, value) {
     if (value == 0x7F) {
-        if (mode.trackIsPlaying[deckNumber]) {
+        if (mode[deckNumber].trackIsPlaying) {
             engine.setParameter("[Channel" + deckNumber + "]", "cue_gotoandstop", 1);
-            mode.trackIsPlaying[deckNumber] = false;
-            mode.onCuePosition[deckNumber] = true;
+            mode[deckNumber].trackIsPlaying = false;
+            mode[deckNumber].onCuePosition = true;
         } else {
-            if (mode.onCuePosition[deckNumber] && !mode.scratch[deckNumber]) {
+            if (mode[deckNumber].onCuePosition && !mode[deckNumber].scratch) {
                 engine.setParameter("[Channel" + deckNumber + "]", "cue_gotoandplay", 1);
             } else {
                 engine.setParameter("[Channel" + deckNumber + "]", "cue_set", 1);
-                mode.onCuePosition[deckNumber] = true;
+                mode[deckNumber].onCuePosition = true;
             }
         }
     } else {
-        if (mode.onCuePosition[deckNumber]) {
+        if (mode[deckNumber].onCuePosition) {
             engine.setParameter("[Channel" + deckNumber + "]", "cue_gotoandstop", 1);
         }
     }
 };
 
-shiftEventHandler = function(deckNumber, value) {
+shiftEventHandler = function (deckNumber, value) {
     if (value == 0x7F) {
-        mode.shift[deckNumber] = true;
+        mode[deckNumber].shift = true;
     } else {
-        mode.shift[deckNumber] = false;
+        mode[deckNumber].shift = false;
     }
 };
 
-masterEventHandler = function(deckNumber, value) {
+masterEventHandler = function (deckNumber, value) {
     if (value == 0x7F) {
         mode.master = !mode.master;
     }
 };
 
-syncEventHandler = function(deckNumber, value) {
+syncEventHandler = function (deckNumber, value) {
     if (value == 0x7F) {
-        mode.shift[deckNumber] = true;
+        mode[deckNumber].shift = true;
     }
 };
 
-syncMasterEventHandler = function(deckNumber, value) {
+syncMasterEventHandler = function (deckNumber, value) {
     if (value == 0x7F) {
         engine.setValue("[Channel" + deckNumber + "]", "rateRange", 1.0);
     }
 };
 
 var ctrlHandlersArray = [
-    {ctrl: Ctrl.play, handlers: genericCtrl(function (s1, s2) { print(s1 + " " + s2) })},
-    {ctrl: Ctrl.volume, handlers: genericCtrl(volumeEventHandler)},
-    {ctrl: Ctrl.tempo, handlers: genericCtrl(tempoEventHandler)},
-    {ctrl: Ctrl.crossfader, handlers: genericCtrl(crossfaderEventHandler)},
-    {ctrl: Ctrl.eqHigh, handlers: genericCtrl(eqHighEventHandler)},
-    {ctrl: Ctrl.eqMiddle, handlers: genericCtrl(eqMiddleEventHandler)},
-    {ctrl: Ctrl.eqLow, handlers: genericCtrl(eqLowEventHandler)},
-    {ctrl: Ctrl.filter, handlers: genericCtrl(filterEventHandler)},
-    {ctrl: Ctrl.jogWheelTouch, handlers: genericCtrl(jogWheelTouchEventHandler)},
-    {ctrl: Ctrl.jogWheelTurn, handlers: genericCtrl(jogWheelTurnEventHandler)},
-    {ctrl: Ctrl.play, handlers: genericCtrl(playEventHandler)},
-    {ctrl: Ctrl.cue, handlers: genericCtrl(cueEventHandler)},
-    {ctrl: Ctrl.shift, handlers: genericCtrl(shiftEventHandler)},
-    {ctrl: Ctrl.master, handlers: genericCtrl(masterEventHandler)},
-    {ctrl: Ctrl.sync, handlers: genericAndMasterCtrl(syncMasterEventHandler, syncEventHandler)},
+    { ctrl: Ctrl.play, handlers: genericCtrl(function (s1, s2) { print(s1 + " " + s2) }) },
+    { ctrl: Ctrl.volume, handlers: genericCtrl(volumeEventHandler) },
+    { ctrl: Ctrl.tempo, handlers: genericCtrl(tempoEventHandler) },
+    { ctrl: Ctrl.crossfader, handlers: genericCtrl(crossfaderEventHandler) },
+    { ctrl: Ctrl.eqHigh, handlers: genericCtrl(eqHighEventHandler) },
+    { ctrl: Ctrl.eqMiddle, handlers: genericCtrl(eqMiddleEventHandler) },
+    { ctrl: Ctrl.eqLow, handlers: genericCtrl(eqLowEventHandler) },
+    { ctrl: Ctrl.filter, handlers: genericCtrl(filterEventHandler) },
+    { ctrl: Ctrl.jogWheelTouch, handlers: genericCtrl(jogWheelTouchEventHandler) },
+    { ctrl: Ctrl.jogWheelTurn, handlers: genericCtrl(jogWheelTurnEventHandler) },
+    { ctrl: Ctrl.play, handlers: genericCtrl(playEventHandler) },
+    { ctrl: Ctrl.cue, handlers: genericCtrl(cueEventHandler) },
+    { ctrl: Ctrl.shift, handlers: genericCtrl(shiftEventHandler) },
+    { ctrl: Ctrl.master, handlers: genericCtrl(masterEventHandler) },
+    { ctrl: Ctrl.sync, handlers: genericAndMasterCtrl(syncMasterEventHandler, syncEventHandler) },
 ];
 
 var ctrlHandlers = {};
@@ -406,14 +398,14 @@ DDJ200.init = function () {
             var currentLogicControl = logicCtrl[statusKeys[s]][controlKeys[c]];
 
             if (!currentLogicControl.shift) {
-                midiCtrl[currentLogicControl.deck][currentLogicControl.ctrl] = {normal: {status: statusKeys[s], control: controlKeys[c]}, shifted: null};
+                midiCtrl[currentLogicControl.deck][currentLogicControl.ctrl] = { normal: { status: statusKeys[s], control: controlKeys[c] }, shifted: null };
             }
         }
         for (var c = 0; c < controlKeys.length; c++) {
             var currentLogicControl = logicCtrl[statusKeys[s]][controlKeys[c]];
 
             if (currentLogicControl.shift) {
-                midiCtrl[currentLogicControl.deck][currentLogicControl.ctrl].shifted = {status: statusKeys[s], control: controlKeys[c]};
+                midiCtrl[currentLogicControl.deck][currentLogicControl.ctrl].shifted = { status: statusKeys[s], control: controlKeys[c] };
             }
         }
     }
@@ -438,7 +430,7 @@ DDJ200.init = function () {
     */
 };
 
-DDJ200.shutdown = function () {};
+DDJ200.shutdown = function () { };
 
 // Led const
 const ON = 127;
@@ -480,9 +472,9 @@ DDJ200.eventHandler = function (channel, control, value, status, group) {
             } else if (handlers.generic != null) {
                 handlers.generic(deckNumber, value);
             } else if (handlers.topPad != null) {
-                handlers.topPad[mode.topPads[deckNumber]](deckNumber, value);
+                handlers.topPad[mode[deckNumber].topPads](deckNumber, value);
             } else if (handlers.bottomPad != null) {
-                handlers.bottomPad[mode.bottomPads[deckNumber]](deckNumber, value);
+                handlers.bottomPad[mode[deckNumber].bottomPads](deckNumber, value);
             } else {
                 print("NO FUNCTION AVALIABLE")
             }
