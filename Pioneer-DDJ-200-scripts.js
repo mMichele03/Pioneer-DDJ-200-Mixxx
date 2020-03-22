@@ -171,18 +171,24 @@ var mode = {
     1: {
         topPads: TopPadsMode.hotcues1,
         bottomPads: BottomPadsMode.padFx,
-        scratch: false,
-        trackIsPlaying: false,
-        onCuePosition: true,
         shift: false,
+        status: {
+            trackSamples: -1, // 0 if not loaded (init with -1 so that it is always different from any possible value)
+            trackIsPlaying: false,
+            onCuePosition: true,
+            scratch: false,
+        },
     },
     2: {
         topPads: TopPadsMode.hotcues1,
         bottomPads: BottomPadsMode.padFx,
-        scratch: false,
-        trackIsPlaying: false,
-        onCuePosition: true,
         shift: false,
+        status: {
+            trackSamples: -1, // 0 if not loaded (init with -1 so that it is always different from any possible value)
+            trackIsPlaying: false,
+            onCuePosition: true,
+            scratch: false,
+        },
     },
 };
 
@@ -282,14 +288,14 @@ const JOG_MULTIPLIER = 0.75;
 jogWheelTouchEventHandler = function (deckNumber, value) {
     if (value == 0x7F) {
         engine.scratchEnable(deckNumber, 400, 33 + 1 / 3, ALPHA, BETA);
-        mode[deckNumber].scratch = true;
+        mode[deckNumber].status.scratch = true;
         print("SCRATCH ON");
     } else {
         engine.scratchDisable(deckNumber);
-        mode[deckNumber].scratch = false;
+        mode[deckNumber].status.scratch = false;
         print("SCRATCH OFF");
 
-        if (mode[deckNumber].onCuePosition) {
+        if (mode[deckNumber].status.onCuePosition) {
             engine.setParameter("[Channel" + deckNumber + "]", "cue_gotoandstop", 1);
         }
     }
@@ -298,46 +304,46 @@ jogWheelTouchEventHandler = function (deckNumber, value) {
 jogWheelTurnEventHandler = function (deckNumber, value) {
     value = value - 64;
 
-    if (mode[deckNumber].scratch) {
+    if (mode[deckNumber].status.scratch) {
         engine.scratchTick(deckNumber, value); // Scratch
         print("scratching");
-    } else if (mode[deckNumber].trackIsPlaying) {
+    } else if (mode[deckNumber].status.trackIsPlaying) {
         engine.setValue("[Channel" + deckNumber + "]", 'jog', value * JOG_MULTIPLIER); // Pitch bend
         print("pitch bend");
-    } else if (mode[deckNumber].onCuePosition) {
+    } else if (mode[deckNumber].status.onCuePosition) {
         engine.setParameter("[Channel" + deckNumber + "]", "cue_gotoandstop", 1);
     }
 };
 
 playEventHandler = function (deckNumber, value) {
     if (value == 0x7F) {
-        if (mode[deckNumber].trackIsPlaying) {
+        if (mode[deckNumber].status.trackIsPlaying) {
             engine.setParameter("[Channel" + deckNumber + "]", "play", 0);
-            mode[deckNumber].trackIsPlaying = false;
+            mode[deckNumber].status.trackIsPlaying = false;
         } else {
             engine.setParameter("[Channel" + deckNumber + "]", "play", 1);
-            mode[deckNumber].trackIsPlaying = true;
-            mode[deckNumber].onCuePosition = false;
+            mode[deckNumber].status.trackIsPlaying = true;
+            mode[deckNumber].status.onCuePosition = false;
         }
     }
 };
 
 cueEventHandler = function (deckNumber, value) {
     if (value == 0x7F) {
-        if (mode[deckNumber].trackIsPlaying) {
+        if (mode[deckNumber].status.trackIsPlaying) {
             engine.setParameter("[Channel" + deckNumber + "]", "cue_gotoandstop", 1);
-            mode[deckNumber].trackIsPlaying = false;
-            mode[deckNumber].onCuePosition = true;
+            mode[deckNumber].status.trackIsPlaying = false;
+            mode[deckNumber].status.onCuePosition = true;
         } else {
-            if (mode[deckNumber].onCuePosition && !mode[deckNumber].scratch) {
+            if (mode[deckNumber].status.onCuePosition && !mode[deckNumber].status.scratch) {
                 engine.setParameter("[Channel" + deckNumber + "]", "cue_gotoandplay", 1);
             } else {
                 engine.setParameter("[Channel" + deckNumber + "]", "cue_set", 1);
-                mode[deckNumber].onCuePosition = true;
+                mode[deckNumber].status.onCuePosition = true;
             }
         }
     } else {
-        if (mode[deckNumber].onCuePosition) {
+        if (mode[deckNumber].status.onCuePosition) {
             engine.setParameter("[Channel" + deckNumber + "]", "cue_gotoandstop", 1);
         }
     }
@@ -415,19 +421,35 @@ DDJ200.init = function () {
     }
     // print(JSON.stringify(ctrlHandlers));
 
-    /*
     print("Setting timer");
-    var counter = 0;
-    var timer = engine.beginTimer(1000, function() {
-        print("Done timer: counter = " + counter);
-        counter++;
-        if (counter >= 4) {
-            engine.stopTimer(timer);
-        } 
+    engine.beginTimer(500, function () {
+        var currentTrackSamples = {
+            1: engine.getParameter("[Channel1]", "track_samples"),
+            2: engine.getParameter("[Channel2]", "track_samples"),
+        };
+        if (currentTrackSamples[1] != mode[1].status.trackSamples) {
+            mode[1].status.trackSamples = currentTrackSamples[1];
+            if (mode[1].status.trackSamples == 0) {
+                setLed(1, Ctrl.play, OFF);
+                setLed(1, Ctrl.cue, OFF);
+            } else {
+                setLed(1, Ctrl.play, ON);
+                setLed(1, Ctrl.cue, ON);
+            }
+        }
+        if (currentTrackSamples[2] != mode[2].status.trackSamples) {
+            mode[2].status.trackSamples = currentTrackSamples[2];
+            if (mode[2].status.trackSamples == 0) {
+                setLed(2, Ctrl.play, OFF);
+                setLed(2, Ctrl.cue, OFF);
+            } else {
+                setLed(2, Ctrl.play, ON);
+                setLed(2, Ctrl.cue, ON);
+            }
+        }
     });
 
-    print("Set timer");
-    */
+    print("Timer set");
 };
 
 DDJ200.shutdown = function () { };
