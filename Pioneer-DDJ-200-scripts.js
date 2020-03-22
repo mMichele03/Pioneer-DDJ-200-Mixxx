@@ -509,9 +509,6 @@ DDJ200.init = function () {
             if (mode[2].status.trackSamples == 0) {
                 setLed(2, Ctrl.play, OFF);
                 setLed(2, Ctrl.cue, OFF);
-            } else {
-                setLed(2, Ctrl.play, ON);
-                setLed(2, Ctrl.cue, ON);
             }
         }
         var playLedSetting = (counter - (counter % 2)) / 2;
@@ -554,7 +551,17 @@ DDJ200.init = function () {
     print("Timer set");
 };
 
-DDJ200.shutdown = function () { };
+DDJ200.shutdown = function () {
+    setLed(1, Ctrl.play, OFF);
+    setLed(1, Ctrl.cue, OFF);
+    setLed(2, Ctrl.play, OFF);
+    setLed(2, Ctrl.cue, OFF);
+    setLed(1, Ctrl.sync, OFF);
+    setLed(2, Ctrl.sync, OFF);
+    setLed(1, Ctrl.headphone, OFF);
+    setLed(2, Ctrl.headphone, OFF);
+    setLed(0, Ctrl.master, OFF);
+};
 
 // Led const
 const ON = 127;
