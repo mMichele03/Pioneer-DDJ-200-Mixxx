@@ -360,6 +360,19 @@ shiftEventHandler = function (deckNumber, value) {
 masterEventHandler = function (deckNumber, value) {
     if (value == 0x7F) {
         mode.master = !mode.master;
+        if (mode.master) {
+            setLed(deckNumber, Ctrl.master, ON);
+        } else {
+            setLed(deckNumber, Ctrl.master, OFF);
+        }
+    }
+};
+
+headphoneEventHandler = function (deckNumber, value) {
+    if (value == 0x7F) {
+        var NewVal = 1 - engine.getParameter("[Channel" + deckNumber + "]", "pfl");
+        engine.setParameter("[Channel" + deckNumber + "]", "pfl", NewVal);
+        setLed(deckNumber, Ctrl.headphone, ON * NewVal);
     }
 };
 
@@ -390,6 +403,7 @@ var ctrlHandlersArray = [
     { ctrl: Ctrl.cue, handlers: genericCtrl(cueEventHandler) },
     { ctrl: Ctrl.shift, handlers: genericCtrl(shiftEventHandler) },
     { ctrl: Ctrl.master, handlers: genericCtrl(masterEventHandler) },
+    { ctrl: Ctrl.headphone, handlers: genericCtrl(headphoneEventHandler) },
     { ctrl: Ctrl.sync, handlers: genericAndMasterCtrl(syncMasterEventHandler, syncEventHandler) },
 ];
 
