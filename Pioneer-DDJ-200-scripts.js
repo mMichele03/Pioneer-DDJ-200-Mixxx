@@ -422,7 +422,9 @@ DDJ200.init = function () {
     // print(JSON.stringify(ctrlHandlers));
 
     print("Setting timer");
-    engine.beginTimer(500, function () {
+
+    var counter = 0;
+    engine.beginTimer(250, function () {
         var currentTrackSamples = {
             1: engine.getParameter("[Channel1]", "track_samples"),
             2: engine.getParameter("[Channel2]", "track_samples"),
@@ -432,9 +434,6 @@ DDJ200.init = function () {
             if (mode[1].status.trackSamples == 0) {
                 setLed(1, Ctrl.play, OFF);
                 setLed(1, Ctrl.cue, OFF);
-            } else {
-                setLed(1, Ctrl.play, ON);
-                setLed(1, Ctrl.cue, ON);
             }
         }
         if (currentTrackSamples[2] != mode[2].status.trackSamples) {
@@ -446,6 +445,41 @@ DDJ200.init = function () {
                 setLed(2, Ctrl.play, ON);
                 setLed(2, Ctrl.cue, ON);
             }
+        }
+        var playLedSetting = (counter - (counter % 2)) / 2;
+        var cueLedSetting = 1 - (counter % 2);
+
+        if (mode[1].status.trackSamples != 0) {
+            if (mode[1].status.trackIsPlaying) {
+                setLed(1, Ctrl.play, ON);
+                setLed(1, Ctrl.cue, ON);
+            } else {
+                setLed(1, Ctrl.play, ON * playLedSetting);
+                if (mode[1].status.onCuePosition) {
+                    setLed(1, Ctrl.cue, ON);
+                } else {
+                    setLed(1, Ctrl.cue, ON * cueLedSetting);
+                }
+            }
+        }
+
+        if (mode[2].status.trackSamples != 0) {
+            if (mode[2].status.trackIsPlaying) {
+                setLed(2, Ctrl.play, ON);
+                setLed(2, Ctrl.cue, ON);
+            } else {
+                setLed(2, Ctrl.play, ON * playLedSetting);
+                if (mode[2].status.onCuePosition) {
+                    setLed(2, Ctrl.cue, ON);
+                } else {
+                    setLed(2, Ctrl.cue, ON * cueLedSetting);
+                }
+            }
+        }
+
+        counter++;
+        if (counter == 4) {
+            counter = 0;
         }
     });
 
