@@ -151,6 +151,11 @@ var midiCtrl = {
     0: {},
 };
 
+var otherDeck = {
+    1: 2,
+    2: 1,
+}
+
 var TopPadsMode = {
     hotcues1: 0,
     hotcues2: 1,
@@ -176,6 +181,7 @@ var mode = {
             trackSamples: -1, // 0 if not loaded (init with -1 so that it is always different from any possible value)
             trackIsPlaying: false,
             onCuePosition: true,
+            sync: -1, // -1 if sync is off, else bpm number
             scratch: false,
         },
     },
@@ -187,6 +193,7 @@ var mode = {
             trackSamples: -1, // 0 if not loaded (init with -1 so that it is always different from any possible value)
             trackIsPlaying: false,
             onCuePosition: true,
+            sync: -1, // -1 if sync is off, else bpm number
             scratch: false,
         },
     },
@@ -257,7 +264,19 @@ volumeEventHandler = function (deckNumber, fullValue) {
 };
 
 tempoEventHandler = function (deckNumber, fullValue) {
-    engine.setValue("[Channel" + deckNumber + "]", "rate", ((fullValue / BYTE_DATA_MAX_FULL_VALUE) - 0.5) * 2);
+    var tempo = ((fullValue / BYTE_DATA_MAX_FULL_VALUE) - 0.5) * 2 // from -6 to 6
+    engine.setValue("[Channel" + deckNumber + "]", "rate", tempo);
+
+    if (mode[deckNumber].status.sync >= 0) {
+        if (mode[otherDeck[deckNumber]].status.sync >= 0) {
+            engine.setValue("[Channel" + otherDeck[deckNumber] + "]", "bpm", engine.getValue("[Channel" + deckNumber + "]", "bpm"));
+        } else {
+            mode[1].status.sync = -1;
+            setLed(1, Ctrl.sync, OFF);
+            mode[2].status.sync = -1;
+            setLed(2, Ctrl.sync, OFF);
+        }
+    }
 };
 
 crossfaderEventHandler = function (deckNumber, fullValue) {
@@ -378,13 +397,27 @@ headphoneEventHandler = function (deckNumber, value) {
 
 syncEventHandler = function (deckNumber, value) {
     if (value == 0x7F) {
-        mode[deckNumber].shift = true;
+        if (mode[deckNumber].status.sync < 0) {
+            engine.setParameter("[Channel" + deckNumber + "]", "beatsync", 1);
+            setLed(deckNumber, Ctrl.sync, ON);
+            mode[deckNumber].status.sync = engine.getValue("[Channel" + deckNumber + "]", "bpm");
+        } else {
+            setLed(deckNumber, Ctrl.sync, OFF);
+            mode[deckNumber].status.sync = -1;
+        }
     }
 };
 
 syncMasterEventHandler = function (deckNumber, value) {
     if (value == 0x7F) {
-        engine.setValue("[Channel" + deckNumber + "]", "rateRange", 1.0);
+        var nextTempoRange = {
+            0.06: 0.1,
+            0.1: 0.16,
+            0.16: 1.0,
+            1.0: 0.06,
+        };
+        var tempoRange = nextTempoRange[engine.getValue("[Channel" + deckNumber + "]", "rateRange")];
+        engine.setValue("[Channel" + deckNumber + "]", "rateRange", tempoRange);
     }
 };
 
