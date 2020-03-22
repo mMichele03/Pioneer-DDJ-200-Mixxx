@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='utf-8'?>
-<MixxxControllerPreset schemaVersion="1" mixxxVersion="2.0+">
+<MixxxControllerPreset mixxxVersion="2.0+" schemaVersion="1">
     <info>
         <name>Pioneer DDJ-200</name>
         <author>mMic</author>
@@ -15,359 +15,9 @@
             <control>
                 <group></group>
                 <key>DDJ200.eventHandler</key>
-                <description>Low Eq Knob (LSB)</description>
-                <status>0xB1</status>
-                <midino>0x2F</midino>
-                <options>
-                    <script-binding/>
-                </options>
-            </control>
-            <control>
-                <group></group>
-                <key>DDJ200.eventHandler</key>
-                <description>Play/Pause Key</description>
-                <status>0x90</status>
-                <midino>0x47</midino>
-                <options>
-                    <script-binding/>
-                </options>
-            </control>
-            <control>
-                <group></group>
-                <key>DDJ200.eventHandler</key>
-                <description>Play/Pause Key</description>
+                <description>Jog Wheel Touch</description>
                 <status>0x91</status>
-                <midino>0x47</midino>
-                <options>
-                    <script-binding/>
-                </options>
-            </control>
-            <control>
-                <group></group>
-                <key>DDJ200.eventHandler</key>
-                <description>Pad7</description>
-                <status>0x97</status>
-                <midino>0x06</midino>
-                <options>
-                    <script-binding/>
-                </options>
-            </control>
-            <control>
-                <group></group>
-                <key>DDJ200.eventHandler</key>
-                <description>Tempo Slider (MSB)</description>
-                <status>0xB0</status>
-                <midino>0x00</midino>
-                <options>
-                    <script-binding/>
-                </options>
-            </control>
-            <control>
-                <group></group>
-                <key>DDJ200.eventHandler</key>
-                <description>Pad8</description>
-                <status>0x97</status>
-                <midino>0x07</midino>
-                <options>
-                    <script-binding/>
-                </options>
-            </control>
-            <control>
-                <group></group>
-                <key>DDJ200.eventHandler</key>
-                <description>Tempo Slider (MSB)</description>
-                <status>0xB1</status>
-                <midino>0x00</midino>
-                <options>
-                    <script-binding/>
-                </options>
-            </control>
-            <control>
-                <group></group>
-                <key>DDJ200.eventHandler</key>
-                <description>Filter Knob (LSB)</description>
-                <status>0xB6</status>
-                <midino>0x37</midino>
-                <options>
-                    <script-binding/>
-                </options>
-            </control>
-            <control>
-                <group></group>
-                <key>DDJ200.eventHandler</key>
-                <description>Shifted Pad7</description>
-                <status>0x98</status>
-                <midino>0x06</midino>
-                <options>
-                    <script-binding/>
-                </options>
-            </control>
-            <control>
-                <group></group>
-                <key>DDJ200.eventHandler</key>
-                <description>Pad7</description>
-                <status>0x99</status>
-                <midino>0x06</midino>
-                <options>
-                    <script-binding/>
-                </options>
-            </control>
-            <control>
-                <group></group>
-                <key>DDJ200.eventHandler</key>
-                <description>Shifted Pad7</description>
-                <status>0x9A</status>
-                <midino>0x06</midino>
-                <options>
-                    <script-binding/>
-                </options>
-            </control>
-            <control>
-                <group></group>
-                <key>DDJ200.eventHandler</key>
-                <description>Pad5</description>
-                <status>0x97</status>
-                <midino>0x04</midino>
-                <options>
-                    <script-binding/>
-                </options>
-            </control>
-            <control>
-                <group></group>
-                <key>DDJ200.eventHandler</key>
-                <description>Shifted Master Key</description>
-                <status>0x96</status>
-                <midino>0x78</midino>
-                <options>
-                    <script-binding/>
-                </options>
-            </control>
-            <control>
-                <group></group>
-                <key>DDJ200.eventHandler</key>
-                <description>Shifted Pad8</description>
-                <status>0x98</status>
-                <midino>0x07</midino>
-                <options>
-                    <script-binding/>
-                </options>
-            </control>
-            <control>
-                <group></group>
-                <key>DDJ200.eventHandler</key>
-                <description>Pad8</description>
-                <status>0x99</status>
-                <midino>0x07</midino>
-                <options>
-                    <script-binding/>
-                </options>
-            </control>
-            <control>
-                <group></group>
-                <key>DDJ200.eventHandler</key>
-                <description>Shifted Pad8</description>
-                <status>0x9A</status>
-                <midino>0x07</midino>
-                <options>
-                    <script-binding/>
-                </options>
-            </control>
-            <control>
-                <group></group>
-                <key>DDJ200.eventHandler</key>
-                <description>Pad6</description>
-                <status>0x97</status>
-                <midino>0x05</midino>
-                <options>
-                    <script-binding/>
-                </options>
-            </control>
-            <control>
-                <group></group>
-                <key>DDJ200.eventHandler</key>
-                <description>Crossfader (MSB)</description>
-                <status>0xB6</status>
-                <midino>0x1F</midino>
-                <options>
-                    <script-binding/>
-                </options>
-            </control>
-            <control>
-                <group></group>
-                <key>DDJ200.eventHandler</key>
-                <description>Mid Eq Knob (LSB)</description>
-                <status>0xB0</status>
-                <midino>0x2B</midino>
-                <options>
-                    <script-binding/>
-                </options>
-            </control>
-            <control>
-                <group></group>
-                <key>DDJ200.eventHandler</key>
-                <description>Shifted Pad5</description>
-                <status>0x98</status>
-                <midino>0x04</midino>
-                <options>
-                    <script-binding/>
-                </options>
-            </control>
-            <control>
-                <group></group>
-                <key>DDJ200.eventHandler</key>
-                <description>Mid Eq Knob (LSB)</description>
-                <status>0xB1</status>
-                <midino>0x2B</midino>
-                <options>
-                    <script-binding/>
-                </options>
-            </control>
-            <control>
-                <group></group>
-                <key>DDJ200.eventHandler</key>
-                <description>Pad5</description>
-                <status>0x99</status>
-                <midino>0x04</midino>
-                <options>
-                    <script-binding/>
-                </options>
-            </control>
-            <control>
-                <group></group>
-                <key>DDJ200.eventHandler</key>
-                <description>Shifted Pad5</description>
-                <status>0x9A</status>
-                <midino>0x04</midino>
-                <options>
-                    <script-binding/>
-                </options>
-            </control>
-            <control>
-                <group></group>
-                <key>DDJ200.eventHandler</key>
-                <description>Pad3</description>
-                <status>0x97</status>
-                <midino>0x02</midino>
-                <options>
-                    <script-binding/>
-                </options>
-            </control>
-            <control>
-                <group></group>
-                <key>DDJ200.eventHandler</key>
-                <description>Shifted Pad6</description>
-                <status>0x98</status>
-                <midino>0x05</midino>
-                <options>
-                    <script-binding/>
-                </options>
-            </control>
-            <control>
-                <group></group>
-                <key>DDJ200.eventHandler</key>
-                <description>Pad6</description>
-                <status>0x99</status>
-                <midino>0x05</midino>
-                <options>
-                    <script-binding/>
-                </options>
-            </control>
-            <control>
-                <group></group>
-                <key>DDJ200.eventHandler</key>
-                <description>Shifted Pad6</description>
-                <status>0x9A</status>
-                <midino>0x05</midino>
-                <options>
-                    <script-binding/>
-                </options>
-            </control>
-            <control>
-                <group></group>
-                <key>DDJ200.eventHandler</key>
-                <description>Pad4</description>
-                <status>0x97</status>
-                <midino>0x03</midino>
-                <options>
-                    <script-binding/>
-                </options>
-            </control>
-            <control>
-                <group></group>
-                <key>DDJ200.eventHandler</key>
-                <description>Shifted Touched Jog Wheel</description>
-                <status>0xB0</status>
-                <midino>0x29</midino>
-                <options>
-                    <script-binding/>
-                </options>
-            </control>
-            <control>
-                <group></group>
-                <key>DDJ200.eventHandler</key>
-                <description>Shifted Pad3</description>
-                <status>0x98</status>
-                <midino>0x02</midino>
-                <options>
-                    <script-binding/>
-                </options>
-            </control>
-            <control>
-                <group></group>
-                <key>DDJ200.eventHandler</key>
-                <description>Volume Fader (LSB)</description>
-                <status>0xB0</status>
-                <midino>0x33</midino>
-                <options>
-                    <script-binding/>
-                </options>
-            </control>
-            <control>
-                <group></group>
-                <key>DDJ200.eventHandler</key>
-                <description>Shifted Touched Jog Wheel</description>
-                <status>0xB1</status>
-                <midino>0x29</midino>
-                <options>
-                    <script-binding/>
-                </options>
-            </control>
-            <control>
-                <group></group>
-                <key>DDJ200.eventHandler</key>
-                <description>Pad3</description>
-                <status>0x99</status>
-                <midino>0x02</midino>
-                <options>
-                    <script-binding/>
-                </options>
-            </control>
-            <control>
-                <group></group>
-                <key>DDJ200.eventHandler</key>
-                <description>Volume Fader (LSB)</description>
-                <status>0xB1</status>
-                <midino>0x33</midino>
-                <options>
-                    <script-binding/>
-                </options>
-            </control>
-            <control>
-                <group></group>
-                <key>DDJ200.eventHandler</key>
-                <description>Shifted Pad3</description>
-                <status>0x9A</status>
-                <midino>0x02</midino>
-                <options>
-                    <script-binding/>
-                </options>
-            </control>
-            <control>
-                <group></group>
-                <key>DDJ200.eventHandler</key>
-                <description>Pad1</description>
-                <status>0x97</status>
-                <midino>0x00</midino>
+                <midino>0x36</midino>
                 <options>
                     <script-binding/>
                 </options>
@@ -385,59 +35,9 @@
             <control>
                 <group></group>
                 <key>DDJ200.eventHandler</key>
-                <description>Jog Wheel Touch</description>
-                <status>0x91</status>
-                <midino>0x36</midino>
-                <options>
-                    <script-binding/>
-                </options>
-            </control>
-            <control>
-                <group></group>
-                <key>DDJ200.eventHandler</key>
-                <description>Shifted Pad4</description>
-                <status>0x98</status>
-                <midino>0x03</midino>
-                <options>
-                    <script-binding/>
-                </options>
-            </control>
-            <control>
-                <group></group>
-                <key>DDJ200.eventHandler</key>
-                <description>Pad4</description>
-                <status>0x99</status>
-                <midino>0x03</midino>
-                <options>
-                    <script-binding/>
-                </options>
-            </control>
-            <control>
-                <group></group>
-                <key>DDJ200.eventHandler</key>
-                <description>Shifted Pad4</description>
-                <status>0x9A</status>
-                <midino>0x03</midino>
-                <options>
-                    <script-binding/>
-                </options>
-            </control>
-            <control>
-                <group></group>
-                <key>DDJ200.eventHandler</key>
-                <description>Pad2</description>
-                <status>0x97</status>
-                <midino>0x01</midino>
-                <options>
-                    <script-binding/>
-                </options>
-            </control>
-            <control>
-                <group></group>
-                <key>DDJ200.eventHandler</key>
-                <description>Shifted Pad1</description>
-                <status>0x98</status>
-                <midino>0x00</midino>
+                <description>High Eq Knob (LSB)</description>
+                <status>0xB1</status>
+                <midino>0x27</midino>
                 <options>
                     <script-binding/>
                 </options>
@@ -455,189 +55,9 @@
             <control>
                 <group></group>
                 <key>DDJ200.eventHandler</key>
-                <description>High Eq Knob (LSB)</description>
+                <description>Mid Eq Knob (MSB)</description>
                 <status>0xB1</status>
-                <midino>0x27</midino>
-                <options>
-                    <script-binding/>
-                </options>
-            </control>
-            <control>
-                <group></group>
-                <key>DDJ200.eventHandler</key>
-                <description>Pad1</description>
-                <status>0x99</status>
-                <midino>0x00</midino>
-                <options>
-                    <script-binding/>
-                </options>
-            </control>
-            <control>
-                <group></group>
-                <key>DDJ200.eventHandler</key>
-                <description>Shifted Pad1</description>
-                <status>0x9A</status>
-                <midino>0x00</midino>
-                <options>
-                    <script-binding/>
-                </options>
-            </control>
-            <control>
-                <group></group>
-                <key>DDJ200.eventHandler</key>
-                <description>Shifted Headphone Key</description>
-                <status>0x90</status>
-                <midino>0x68</midino>
-                <options>
-                    <script-binding/>
-                </options>
-            </control>
-            <control>
-                <group></group>
-                <key>DDJ200.eventHandler</key>
-                <description> Filter Knob (MSB)</description>
-                <status>0xB6</status>
-                <midino>0x18</midino>
-                <options>
-                    <script-binding/>
-                </options>
-            </control>
-            <control>
-                <group></group>
-                <key>DDJ200.eventHandler</key>
-                <description>Shifted Pad2</description>
-                <status>0x98</status>
-                <midino>0x01</midino>
-                <options>
-                    <script-binding/>
-                </options>
-            </control>
-            <control>
-                <group></group>
-                <key>DDJ200.eventHandler</key>
-                <description>Shifted Headphone Key</description>
-                <status>0x91</status>
-                <midino>0x68</midino>
-                <options>
-                    <script-binding/>
-                </options>
-            </control>
-            <control>
-                <group></group>
-                <key>DDJ200.eventHandler</key>
-                <description>Pad2</description>
-                <status>0x99</status>
-                <midino>0x01</midino>
-                <options>
-                    <script-binding/>
-                </options>
-            </control>
-            <control>
-                <group></group>
-                <key>DDJ200.eventHandler</key>
-                <description>Shifted Pad2</description>
-                <status>0x9A</status>
-                <midino>0x01</midino>
-                <options>
-                    <script-binding/>
-                </options>
-            </control>
-            <control>
-                <group></group>
-                <key>DDJ200.eventHandler</key>
-                <description> Low Eq Knob (MSB)</description>
-                <status>0xB0</status>
-                <midino>0x0F</midino>
-                <options>
-                    <script-binding/>
-                </options>
-            </control>
-            <control>
-                <group></group>
-                <key>DDJ200.eventHandler</key>
-                <description> Low Eq Knob (MSB)</description>
-                <status>0xB1</status>
-                <midino>0x0F</midino>
-                <options>
-                    <script-binding/>
-                </options>
-            </control>
-            <control>
-                <group></group>
-                <key>DDJ200.eventHandler</key>
-                <description>Shifted Central Key</description>
-                <status>0x96</status>
-                <midino>0x5A</midino>
-                <options>
-                    <script-binding/>
-                </options>
-            </control>
-            <control>
-                <group></group>
-                <key>DDJ200.eventHandler</key>
-                <description>Touched Jog Wheel</description>
-                <status>0xB0</status>
-                <midino>0x22</midino>
-                <options>
-                    <script-binding/>
-                </options>
-            </control>
-            <control>
-                <group></group>
-                <key>DDJ200.eventHandler</key>
-                <description>Touched Jog Wheel</description>
-                <status>0xB1</status>
-                <midino>0x22</midino>
-                <options>
-                    <script-binding/>
-                </options>
-            </control>
-            <control>
-                <group></group>
-                <key>DDJ200.eventHandler</key>
-                <description>Shifted Jog Wheel Touch</description>
-                <status>0x90</status>
-                <midino>0x67</midino>
-                <options>
-                    <script-binding/>
-                </options>
-            </control>
-            <control>
-                <group></group>
-                <key>DDJ200.eventHandler</key>
-                <description> Filter Knob (MSB)</description>
-                <status>0xB6</status>
-                <midino>0x17</midino>
-                <options>
-                    <script-binding/>
-                </options>
-            </control>
-            <control>
-                <group></group>
-                <key>DDJ200.eventHandler</key>
-                <description>Shifted Jog Wheel Touch</description>
-                <status>0x91</status>
-                <midino>0x67</midino>
-                <options>
-                    <script-binding/>
-                </options>
-            </control>
-            <control>
-                <group></group>
-                <key>DDJ200.eventHandler</key>
-                <description>Tempo Slider (LSB)</description>
-                <status>0xB0</status>
-                <midino>0x20</midino>
-                <options>
-                    <script-binding/>
-                </options>
-            </control>
-            <control>
-                <group></group>
-                <key>DDJ200.eventHandler</key>
-                <description>Tempo Slider (LSB)</description>
-                <status>0xB1</status>
-                <midino>0x20</midino>
+                <midino>0x0B</midino>
                 <options>
                     <script-binding/>
                 </options>
@@ -646,7 +66,7 @@
                 <group></group>
                 <key>DDJ200.eventHandler</key>
                 <description>Sync Key</description>
-                <status>0x90</status>
+                <status>0x91</status>
                 <midino>0x58</midino>
                 <options>
                     <script-binding/>
@@ -655,8 +75,18 @@
             <control>
                 <group></group>
                 <key>DDJ200.eventHandler</key>
+                <description>Mid Eq Knob (MSB)</description>
+                <status>0xB0</status>
+                <midino>0x0B</midino>
+                <options>
+                    <script-binding/>
+                </options>
+            </control>
+            <control>
+                <group></group>
+                <key>DDJ200.eventHandler</key>
                 <description>Sync Key</description>
-                <status>0x91</status>
+                <status>0x90</status>
                 <midino>0x58</midino>
                 <options>
                     <script-binding/>
@@ -675,9 +105,9 @@
             <control>
                 <group></group>
                 <key>DDJ200.eventHandler</key>
-                <description>Not-touched Jog Wheel</description>
-                <status>0xB0</status>
-                <midino>0x21</midino>
+                <description>Shifted Pad7</description>
+                <status>0x9A</status>
+                <midino>0x06</midino>
                 <options>
                     <script-binding/>
                 </options>
@@ -685,9 +115,199 @@
             <control>
                 <group></group>
                 <key>DDJ200.eventHandler</key>
-                <description>Mid Eq Knob (MSB)</description>
+                <description>Pad7</description>
+                <status>0x99</status>
+                <midino>0x06</midino>
+                <options>
+                    <script-binding/>
+                </options>
+            </control>
+            <control>
+                <group></group>
+                <key>DDJ200.eventHandler</key>
+                <description>Crossfader (MSB)</description>
+                <status>0xB6</status>
+                <midino>0x1F</midino>
+                <options>
+                    <script-binding/>
+                </options>
+            </control>
+            <control>
+                <group></group>
+                <key>DDJ200.eventHandler</key>
+                <description>Shifted Pad7</description>
+                <status>0x98</status>
+                <midino>0x06</midino>
+                <options>
+                    <script-binding/>
+                </options>
+            </control>
+            <control>
+                <group></group>
+                <key>DDJ200.eventHandler</key>
+                <description>Touched Jog Wheel</description>
+                <status>0xB1</status>
+                <midino>0x22</midino>
+                <options>
+                    <script-binding/>
+                </options>
+            </control>
+            <control>
+                <group></group>
+                <key>DDJ200.eventHandler</key>
+                <description>Touched Jog Wheel</description>
                 <status>0xB0</status>
-                <midino>0x0B</midino>
+                <midino>0x22</midino>
+                <options>
+                    <script-binding/>
+                </options>
+            </control>
+            <control>
+                <group></group>
+                <key>DDJ200.eventHandler</key>
+                <description>Play/Pause Key</description>
+                <status>0x91</status>
+                <midino>0x47</midino>
+                <options>
+                    <script-binding/>
+                </options>
+            </control>
+            <control>
+                <group></group>
+                <key>DDJ200.eventHandler</key>
+                <description>Shifted Pad8</description>
+                <status>0x9A</status>
+                <midino>0x07</midino>
+                <options>
+                    <script-binding/>
+                </options>
+            </control>
+            <control>
+                <group></group>
+                <key>DDJ200.eventHandler</key>
+                <description>Play/Pause Key</description>
+                <status>0x90</status>
+                <midino>0x47</midino>
+                <options>
+                    <script-binding/>
+                </options>
+            </control>
+            <control>
+                <group></group>
+                <key>DDJ200.eventHandler</key>
+                <description>Pad8</description>
+                <status>0x99</status>
+                <midino>0x07</midino>
+                <options>
+                    <script-binding/>
+                </options>
+            </control>
+            <control>
+                <group></group>
+                <key>DDJ200.eventHandler</key>
+                <description>Shifted Pad8</description>
+                <status>0x98</status>
+                <midino>0x07</midino>
+                <options>
+                    <script-binding/>
+                </options>
+            </control>
+            <control>
+                <group></group>
+                <key>DDJ200.eventHandler</key>
+                <description>Pad7</description>
+                <status>0x97</status>
+                <midino>0x06</midino>
+                <options>
+                    <script-binding/>
+                </options>
+            </control>
+            <control>
+                <group></group>
+                <key>DDJ200.eventHandler</key>
+                <description>Shifted Pad5</description>
+                <status>0x9A</status>
+                <midino>0x04</midino>
+                <options>
+                    <script-binding/>
+                </options>
+            </control>
+            <control>
+                <group></group>
+                <key>DDJ200.eventHandler</key>
+                <description>Pad5</description>
+                <status>0x99</status>
+                <midino>0x04</midino>
+                <options>
+                    <script-binding/>
+                </options>
+            </control>
+            <control>
+                <group></group>
+                <key>DDJ200.eventHandler</key>
+                <description>Shifted Pad5</description>
+                <status>0x98</status>
+                <midino>0x04</midino>
+                <options>
+                    <script-binding/>
+                </options>
+            </control>
+            <control>
+                <group></group>
+                <key>DDJ200.eventHandler</key>
+                <description>Tempo Slider (LSB)</description>
+                <status>0xB1</status>
+                <midino>0x20</midino>
+                <options>
+                    <script-binding/>
+                </options>
+            </control>
+            <control>
+                <group></group>
+                <key>DDJ200.eventHandler</key>
+                <description>Pad8</description>
+                <status>0x97</status>
+                <midino>0x07</midino>
+                <options>
+                    <script-binding/>
+                </options>
+            </control>
+            <control>
+                <group></group>
+                <key>DDJ200.eventHandler</key>
+                <description>Tempo Slider (LSB)</description>
+                <status>0xB0</status>
+                <midino>0x20</midino>
+                <options>
+                    <script-binding/>
+                </options>
+            </control>
+            <control>
+                <group></group>
+                <key>DDJ200.eventHandler</key>
+                <description>Shifted Pad6</description>
+                <status>0x9A</status>
+                <midino>0x05</midino>
+                <options>
+                    <script-binding/>
+                </options>
+            </control>
+            <control>
+                <group></group>
+                <key>DDJ200.eventHandler</key>
+                <description>Pad6</description>
+                <status>0x99</status>
+                <midino>0x05</midino>
+                <options>
+                    <script-binding/>
+                </options>
+            </control>
+            <control>
+                <group></group>
+                <key>DDJ200.eventHandler</key>
+                <description>Shifted Pad6</description>
+                <status>0x98</status>
+                <midino>0x05</midino>
                 <options>
                     <script-binding/>
                 </options>
@@ -705,9 +325,9 @@
             <control>
                 <group></group>
                 <key>DDJ200.eventHandler</key>
-                <description>Mid Eq Knob (MSB)</description>
-                <status>0xB1</status>
-                <midino>0x0B</midino>
+                <description>Shifted Headphone Key</description>
+                <status>0x91</status>
+                <midino>0x68</midino>
                 <options>
                     <script-binding/>
                 </options>
@@ -715,9 +335,389 @@
             <control>
                 <group></group>
                 <key>DDJ200.eventHandler</key>
-                <description>Master Key</description>
+                <description>Pad5</description>
+                <status>0x97</status>
+                <midino>0x04</midino>
+                <options>
+                    <script-binding/>
+                </options>
+            </control>
+            <control>
+                <group></group>
+                <key>DDJ200.eventHandler</key>
+                <description>Not-touched Jog Wheel</description>
+                <status>0xB0</status>
+                <midino>0x21</midino>
+                <options>
+                    <script-binding/>
+                </options>
+            </control>
+            <control>
+                <group></group>
+                <key>DDJ200.eventHandler</key>
+                <description>Shifted Headphone Key</description>
+                <status>0x90</status>
+                <midino>0x68</midino>
+                <options>
+                    <script-binding/>
+                </options>
+            </control>
+            <control>
+                <group></group>
+                <key>DDJ200.eventHandler</key>
+                <description>Shifted Pad3</description>
+                <status>0x9A</status>
+                <midino>0x02</midino>
+                <options>
+                    <script-binding/>
+                </options>
+            </control>
+            <control>
+                <group></group>
+                <key>DDJ200.eventHandler</key>
+                <description>Filter Knob (LSB)</description>
+                <status>0xB6</status>
+                <midino>0x37</midino>
+                <options>
+                    <script-binding/>
+                </options>
+            </control>
+            <control>
+                <group></group>
+                <key>DDJ200.eventHandler</key>
+                <description>Pad3</description>
+                <status>0x99</status>
+                <midino>0x02</midino>
+                <options>
+                    <script-binding/>
+                </options>
+            </control>
+            <control>
+                <group></group>
+                <key>DDJ200.eventHandler</key>
+                <description>Shifted Pad3</description>
+                <status>0x98</status>
+                <midino>0x02</midino>
+                <options>
+                    <script-binding/>
+                </options>
+            </control>
+            <control>
+                <group></group>
+                <key>DDJ200.eventHandler</key>
+                <description>Pad6</description>
+                <status>0x97</status>
+                <midino>0x05</midino>
+                <options>
+                    <script-binding/>
+                </options>
+            </control>
+            <control>
+                <group></group>
+                <key>DDJ200.eventHandler</key>
+                <description>Shifted Pad4</description>
+                <status>0x9A</status>
+                <midino>0x03</midino>
+                <options>
+                    <script-binding/>
+                </options>
+            </control>
+            <control>
+                <group></group>
+                <key>DDJ200.eventHandler</key>
+                <description>Pad4</description>
+                <status>0x99</status>
+                <midino>0x03</midino>
+                <options>
+                    <script-binding/>
+                </options>
+            </control>
+            <control>
+                <group></group>
+                <key>DDJ200.eventHandler</key>
+                <description>Shifted Pad4</description>
+                <status>0x98</status>
+                <midino>0x03</midino>
+                <options>
+                    <script-binding/>
+                </options>
+            </control>
+            <control>
+                <group></group>
+                <key>DDJ200.eventHandler</key>
+                <description> Filter Knob (MSB)</description>
+                <status>0xB6</status>
+                <midino>0x18</midino>
+                <options>
+                    <script-binding/>
+                </options>
+            </control>
+            <control>
+                <group></group>
+                <key>DDJ200.eventHandler</key>
+                <description>Low Eq Knob (LSB)</description>
+                <status>0xB1</status>
+                <midino>0x2F</midino>
+                <options>
+                    <script-binding/>
+                </options>
+            </control>
+            <control>
+                <group></group>
+                <key>DDJ200.eventHandler</key>
+                <description>Low Eq Knob (LSB)</description>
+                <status>0xB0</status>
+                <midino>0x2F</midino>
+                <options>
+                    <script-binding/>
+                </options>
+            </control>
+            <control>
+                <group></group>
+                <key>DDJ200.eventHandler</key>
+                <description>Pad3</description>
+                <status>0x97</status>
+                <midino>0x02</midino>
+                <options>
+                    <script-binding/>
+                </options>
+            </control>
+            <control>
+                <group></group>
+                <key>DDJ200.eventHandler</key>
+                <description>Shifted Pad1</description>
+                <status>0x9A</status>
+                <midino>0x00</midino>
+                <options>
+                    <script-binding/>
+                </options>
+            </control>
+            <control>
+                <group></group>
+                <key>DDJ200.eventHandler</key>
+                <description>Pad1</description>
+                <status>0x99</status>
+                <midino>0x00</midino>
+                <options>
+                    <script-binding/>
+                </options>
+            </control>
+            <control>
+                <group></group>
+                <key>DDJ200.eventHandler</key>
+                <description>Shift Key</description>
+                <status>0x91</status>
+                <midino>0x3F</midino>
+                <options>
+                    <script-binding/>
+                </options>
+            </control>
+            <control>
+                <group></group>
+                <key>DDJ200.eventHandler</key>
+                <description>Shifted Pad1</description>
+                <status>0x98</status>
+                <midino>0x00</midino>
+                <options>
+                    <script-binding/>
+                </options>
+            </control>
+            <control>
+                <group></group>
+                <key>DDJ200.eventHandler</key>
+                <description>Shift Key</description>
+                <status>0x90</status>
+                <midino>0x3F</midino>
+                <options>
+                    <script-binding/>
+                </options>
+            </control>
+            <control>
+                <group></group>
+                <key>DDJ200.eventHandler</key>
+                <description>Pad4</description>
+                <status>0x97</status>
+                <midino>0x03</midino>
+                <options>
+                    <script-binding/>
+                </options>
+            </control>
+            <control>
+                <group></group>
+                <key>DDJ200.eventHandler</key>
+                <description>Shifted Pad2</description>
+                <status>0x9A</status>
+                <midino>0x01</midino>
+                <options>
+                    <script-binding/>
+                </options>
+            </control>
+            <control>
+                <group></group>
+                <key>DDJ200.eventHandler</key>
+                <description>Pad2</description>
+                <status>0x99</status>
+                <midino>0x01</midino>
+                <options>
+                    <script-binding/>
+                </options>
+            </control>
+            <control>
+                <group></group>
+                <key>DDJ200.eventHandler</key>
+                <description>Shifted Pad2</description>
+                <status>0x98</status>
+                <midino>0x01</midino>
+                <options>
+                    <script-binding/>
+                </options>
+            </control>
+            <control>
+                <group></group>
+                <key>DDJ200.eventHandler</key>
+                <description>Volume Fader (LSB)</description>
+                <status>0xB1</status>
+                <midino>0x33</midino>
+                <options>
+                    <script-binding/>
+                </options>
+            </control>
+            <control>
+                <group></group>
+                <key>DDJ200.eventHandler</key>
+                <description>Volume Fader (LSB)</description>
+                <status>0xB0</status>
+                <midino>0x33</midino>
+                <options>
+                    <script-binding/>
+                </options>
+            </control>
+            <control>
+                <group></group>
+                <key>DDJ200.eventHandler</key>
+                <description>High Eq Knob (MSB)</description>
+                <status>0xB1</status>
+                <midino>0x07</midino>
+                <options>
+                    <script-binding/>
+                </options>
+            </control>
+            <control>
+                <group></group>
+                <key>DDJ200.eventHandler</key>
+                <description>Headphone Key</description>
+                <status>0x91</status>
+                <midino>0x54</midino>
+                <options>
+                    <script-binding/>
+                </options>
+            </control>
+            <control>
+                <group></group>
+                <key>DDJ200.eventHandler</key>
+                <description>Pad1</description>
+                <status>0x97</status>
+                <midino>0x00</midino>
+                <options>
+                    <script-binding/>
+                </options>
+            </control>
+            <control>
+                <group></group>
+                <key>DDJ200.eventHandler</key>
+                <description>High Eq Knob (MSB)</description>
+                <status>0xB0</status>
+                <midino>0x07</midino>
+                <options>
+                    <script-binding/>
+                </options>
+            </control>
+            <control>
+                <group></group>
+                <key>DDJ200.eventHandler</key>
+                <description>Headphone Key</description>
+                <status>0x90</status>
+                <midino>0x54</midino>
+                <options>
+                    <script-binding/>
+                </options>
+            </control>
+            <control>
+                <group></group>
+                <key>DDJ200.eventHandler</key>
+                <description>Pad2</description>
+                <status>0x97</status>
+                <midino>0x01</midino>
+                <options>
+                    <script-binding/>
+                </options>
+            </control>
+            <control>
+                <group></group>
+                <key>DDJ200.eventHandler</key>
+                <description>Mid Eq Knob (LSB)</description>
+                <status>0xB1</status>
+                <midino>0x2B</midino>
+                <options>
+                    <script-binding/>
+                </options>
+            </control>
+            <control>
+                <group></group>
+                <key>DDJ200.eventHandler</key>
+                <description>Mid Eq Knob (LSB)</description>
+                <status>0xB0</status>
+                <midino>0x2B</midino>
+                <options>
+                    <script-binding/>
+                </options>
+            </control>
+            <control>
+                <group></group>
+                <key>DDJ200.eventHandler</key>
+                <description>Shifted Master Key</description>
                 <status>0x96</status>
-                <midino>0x63</midino>
+                <midino>0x78</midino>
+                <options>
+                    <script-binding/>
+                </options>
+            </control>
+            <control>
+                <group></group>
+                <key>DDJ200.eventHandler</key>
+                <description>Cue Key</description>
+                <status>0x91</status>
+                <midino>0x0C</midino>
+                <options>
+                    <script-binding/>
+                </options>
+            </control>
+            <control>
+                <group></group>
+                <key>DDJ200.eventHandler</key>
+                <description>Shifted Touched Jog Wheel</description>
+                <status>0xB1</status>
+                <midino>0x29</midino>
+                <options>
+                    <script-binding/>
+                </options>
+            </control>
+            <control>
+                <group></group>
+                <key>DDJ200.eventHandler</key>
+                <description>Cue Key</description>
+                <status>0x90</status>
+                <midino>0x0C</midino>
+                <options>
+                    <script-binding/>
+                </options>
+            </control>
+            <control>
+                <group></group>
+                <key>DDJ200.eventHandler</key>
+                <description>Shifted Touched Jog Wheel</description>
+                <status>0xB0</status>
+                <midino>0x29</midino>
                 <options>
                     <script-binding/>
                 </options>
@@ -735,9 +735,9 @@
             <control>
                 <group></group>
                 <key>DDJ200.eventHandler</key>
-                <description>Volume Fader (MSB)</description>
-                <status>0xB0</status>
-                <midino>0x13</midino>
+                <description>Shifted Jog Wheel Touch</description>
+                <status>0x91</status>
+                <midino>0x67</midino>
                 <options>
                     <script-binding/>
                 </options>
@@ -745,9 +745,9 @@
             <control>
                 <group></group>
                 <key>DDJ200.eventHandler</key>
-                <description>Volume Fader (MSB)</description>
+                <description>Tempo Slider (MSB)</description>
                 <status>0xB1</status>
-                <midino>0x13</midino>
+                <midino>0x00</midino>
                 <options>
                     <script-binding/>
                 </options>
@@ -755,9 +755,9 @@
             <control>
                 <group></group>
                 <key>DDJ200.eventHandler</key>
-                <description>Cue Key</description>
+                <description>Shifted Jog Wheel Touch</description>
                 <status>0x90</status>
-                <midino>0x0C</midino>
+                <midino>0x67</midino>
                 <options>
                     <script-binding/>
                 </options>
@@ -765,79 +765,9 @@
             <control>
                 <group></group>
                 <key>DDJ200.eventHandler</key>
-                <description>Cue Key</description>
-                <status>0x91</status>
-                <midino>0x0C</midino>
-                <options>
-                    <script-binding/>
-                </options>
-            </control>
-            <control>
-                <group></group>
-                <key>DDJ200.eventHandler</key>
-                <description>Shifted Sync Key</description>
-                <status>0x90</status>
-                <midino>0x60</midino>
-                <options>
-                    <script-binding/>
-                </options>
-            </control>
-            <control>
-                <group></group>
-                <key>DDJ200.eventHandler</key>
-                <description>Shifted Sync Key</description>
-                <status>0x91</status>
-                <midino>0x60</midino>
-                <options>
-                    <script-binding/>
-                </options>
-            </control>
-            <control>
-                <group></group>
-                <key>DDJ200.eventHandler</key>
-                <description>Headphone Key</description>
-                <status>0x90</status>
-                <midino>0x54</midino>
-                <options>
-                    <script-binding/>
-                </options>
-            </control>
-            <control>
-                <group></group>
-                <key>DDJ200.eventHandler</key>
-                <description>Headphone Key</description>
-                <status>0x91</status>
-                <midino>0x54</midino>
-                <options>
-                    <script-binding/>
-                </options>
-            </control>
-            <control>
-                <group></group>
-                <key>DDJ200.eventHandler</key>
-                <description>High Eq Knob (MSB)</description>
+                <description>Tempo Slider (MSB)</description>
                 <status>0xB0</status>
-                <midino>0x07</midino>
-                <options>
-                    <script-binding/>
-                </options>
-            </control>
-            <control>
-                <group></group>
-                <key>DDJ200.eventHandler</key>
-                <description>High Eq Knob (MSB)</description>
-                <status>0xB1</status>
-                <midino>0x07</midino>
-                <options>
-                    <script-binding/>
-                </options>
-            </control>
-            <control>
-                <group></group>
-                <key>DDJ200.eventHandler</key>
-                <description>Shifted Cue Key</description>
-                <status>0x90</status>
-                <midino>0x48</midino>
+                <midino>0x00</midino>
                 <options>
                     <script-binding/>
                 </options>
@@ -855,9 +785,19 @@
             <control>
                 <group></group>
                 <key>DDJ200.eventHandler</key>
-                <description>Play/Pause Key</description>
+                <description> Filter Knob (MSB)</description>
+                <status>0xB6</status>
+                <midino>0x17</midino>
+                <options>
+                    <script-binding/>
+                </options>
+            </control>
+            <control>
+                <group></group>
+                <key>DDJ200.eventHandler</key>
+                <description>Shifted Cue Key</description>
                 <status>0x90</status>
-                <midino>0x0B</midino>
+                <midino>0x48</midino>
                 <options>
                     <script-binding/>
                 </options>
@@ -868,6 +808,36 @@
                 <description>Play/Pause Key</description>
                 <status>0x91</status>
                 <midino>0x0B</midino>
+                <options>
+                    <script-binding/>
+                </options>
+            </control>
+            <control>
+                <group></group>
+                <key>DDJ200.eventHandler</key>
+                <description>Play/Pause Key</description>
+                <status>0x90</status>
+                <midino>0x0B</midino>
+                <options>
+                    <script-binding/>
+                </options>
+            </control>
+            <control>
+                <group></group>
+                <key>DDJ200.eventHandler</key>
+                <description> Low Eq Knob (MSB)</description>
+                <status>0xB1</status>
+                <midino>0x0F</midino>
+                <options>
+                    <script-binding/>
+                </options>
+            </control>
+            <control>
+                <group></group>
+                <key>DDJ200.eventHandler</key>
+                <description> Low Eq Knob (MSB)</description>
+                <status>0xB0</status>
+                <midino>0x0F</midino>
                 <options>
                     <script-binding/>
                 </options>
@@ -885,9 +855,9 @@
             <control>
                 <group></group>
                 <key>DDJ200.eventHandler</key>
-                <description>Shift Key</description>
-                <status>0x90</status>
-                <midino>0x3F</midino>
+                <description>Master Key</description>
+                <status>0x96</status>
+                <midino>0x63</midino>
                 <options>
                     <script-binding/>
                 </options>
@@ -895,9 +865,19 @@
             <control>
                 <group></group>
                 <key>DDJ200.eventHandler</key>
-                <description>Shift Key</description>
+                <description>Volume Fader (MSB)</description>
+                <status>0xB1</status>
+                <midino>0x13</midino>
+                <options>
+                    <script-binding/>
+                </options>
+            </control>
+            <control>
+                <group></group>
+                <key>DDJ200.eventHandler</key>
+                <description>Shifted Sync Key</description>
                 <status>0x91</status>
-                <midino>0x3F</midino>
+                <midino>0x60</midino>
                 <options>
                     <script-binding/>
                 </options>
@@ -905,9 +885,29 @@
             <control>
                 <group></group>
                 <key>DDJ200.eventHandler</key>
-                <description>Low Eq Knob (LSB)</description>
+                <description>Volume Fader (MSB)</description>
                 <status>0xB0</status>
-                <midino>0x2F</midino>
+                <midino>0x13</midino>
+                <options>
+                    <script-binding/>
+                </options>
+            </control>
+            <control>
+                <group></group>
+                <key>DDJ200.eventHandler</key>
+                <description>Shifted Sync Key</description>
+                <status>0x90</status>
+                <midino>0x60</midino>
+                <options>
+                    <script-binding/>
+                </options>
+            </control>
+            <control>
+                <group></group>
+                <key>DDJ200.eventHandler</key>
+                <description>Shifted Central Key</description>
+                <status>0x96</status>
+                <midino>0x5A</midino>
                 <options>
                     <script-binding/>
                 </options>
