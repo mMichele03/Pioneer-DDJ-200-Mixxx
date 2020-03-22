@@ -183,6 +183,7 @@ var mode = {
             onCuePosition: true,
             scratch: false,
             syncMasterDeck: 0, // 0 if off, else number of the master deck
+            syncMultiplier: 1,
         },
     },
     2: {
@@ -195,6 +196,7 @@ var mode = {
             onCuePosition: true,
             scratch: false,
             syncMasterDeck: 0, // 0 if off, else number of the master deck
+            syncMultiplier: 1,
         },
     },
 };
@@ -385,6 +387,8 @@ syncEventHandler = function (deckNumber, value) {
             engine.setParameter("[Channel" + deckNumber + "]", "beatsync", 1);
             setLed(deckNumber, Ctrl.sync, ON);
 
+            mode[deckNumber].status.syncMultiplier = engine.getValue("[Channel" + deckNumber + "]", "bpm") / engine.getValue("[Channel" + otherDeck[deckNumber] + "]", "bpm");
+
             if (mode[otherDeck[deckNumber]].status.syncMasterDeck != 0) {
                 mode[deckNumber].status.syncMasterDeck = mode[otherDeck[deckNumber]].status.syncMasterDeck;
             } else {
@@ -421,7 +425,7 @@ tempoEventHandler = function (deckNumber, fullValue) {
     engine.setValue("[Channel" + deckNumber + "]", "rate", tempo);
 
     if (mode[deckNumber].status.syncMasterDeck == deckNumber) {
-        engine.setValue("[Channel" + otherDeck[deckNumber] + "]", "bpm", engine.getValue("[Channel" + deckNumber + "]", "bpm"));
+        engine.setValue("[Channel" + otherDeck[deckNumber] + "]", "bpm", engine.getValue("[Channel" + deckNumber + "]", "bpm") * mode[otherDeck[deckNumber]].status.syncMultiplier);
     } else if (mode[otherDeck[deckNumber]].status.syncMasterDeck != deckNumber) {
         mode[1].status.syncMasterDeck = 0;
         setLed(1, Ctrl.sync, OFF);
