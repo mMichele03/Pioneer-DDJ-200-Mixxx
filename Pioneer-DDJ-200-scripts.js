@@ -181,8 +181,8 @@ var mode = {
             trackSamples: -1, // 0 if not loaded (init with -1 so that it is always different from any possible value)
             trackIsPlaying: false,
             onCuePosition: true,
-            sync: -1, // -1 if sync is off, else bpm number
             scratch: false,
+            syncMasterDeck: 0, // 0 if off, else number of the master deck
         },
     },
     2: {
@@ -193,8 +193,8 @@ var mode = {
             trackSamples: -1, // 0 if not loaded (init with -1 so that it is always different from any possible value)
             trackIsPlaying: false,
             onCuePosition: true,
-            sync: -1, // -1 if sync is off, else bpm number
             scratch: false,
+            syncMasterDeck: 0, // 0 if off, else number of the master deck
         },
     },
 };
@@ -261,22 +261,6 @@ valueHandler = function (deckNumber, ctrl, kind, value) {
 
 volumeEventHandler = function (deckNumber, fullValue) {
     engine.setParameter("[Channel" + deckNumber + "]", "volume", fullValue / BYTE_DATA_MAX_FULL_VALUE);
-};
-
-tempoEventHandler = function (deckNumber, fullValue) {
-    var tempo = ((fullValue / BYTE_DATA_MAX_FULL_VALUE) - 0.5) * 2 // from -6 to 6
-    engine.setValue("[Channel" + deckNumber + "]", "rate", tempo);
-
-    if (mode[deckNumber].status.sync >= 0) {
-        if (mode[otherDeck[deckNumber]].status.sync >= 0) {
-            engine.setValue("[Channel" + otherDeck[deckNumber] + "]", "bpm", engine.getValue("[Channel" + deckNumber + "]", "bpm"));
-        } else {
-            mode[1].status.sync = -1;
-            setLed(1, Ctrl.sync, OFF);
-            mode[2].status.sync = -1;
-            setLed(2, Ctrl.sync, OFF);
-        }
-    }
 };
 
 crossfaderEventHandler = function (deckNumber, fullValue) {
@@ -397,13 +381,24 @@ headphoneEventHandler = function (deckNumber, value) {
 
 syncEventHandler = function (deckNumber, value) {
     if (value == 0x7F) {
-        if (mode[deckNumber].status.sync < 0) {
+        if (mode[deckNumber].status.syncMasterDeck == 0) {
             engine.setParameter("[Channel" + deckNumber + "]", "beatsync", 1);
             setLed(deckNumber, Ctrl.sync, ON);
-            mode[deckNumber].status.sync = engine.getValue("[Channel" + deckNumber + "]", "bpm");
+
+            if (mode[otherDeck[deckNumber]].status.syncMasterDeck != 0) {
+                mode[deckNumber].status.syncMasterDeck = mode[otherDeck[deckNumber]].status.syncMasterDeck;
+            } else {
+                mode[deckNumber].status.syncMasterDeck = otherDeck[deckNumber];
+            }
         } else {
             setLed(deckNumber, Ctrl.sync, OFF);
-            mode[deckNumber].status.sync = -1;
+            mode[deckNumber].status.syncMasterDeck = 0;
+            engine.setValue("[Channel" + deckNumber + "]", "bpm", engine.getValue("[Channel" + deckNumber + "]", "file_bpm"));
+
+            if (mode[otherDeck[deckNumber]].status.syncMasterDeck == otherDeck[deckNumber]) {
+                setLed(otherDeck[deckNumber], Ctrl.sync, OFF);
+                mode[otherDeck[deckNumber]].status.syncMasterDeck = 0;
+            }
         }
     }
 };
@@ -418,6 +413,20 @@ syncMasterEventHandler = function (deckNumber, value) {
         };
         var tempoRange = nextTempoRange[engine.getValue("[Channel" + deckNumber + "]", "rateRange")];
         engine.setValue("[Channel" + deckNumber + "]", "rateRange", tempoRange);
+    }
+};
+
+tempoEventHandler = function (deckNumber, fullValue) {
+    var tempo = ((fullValue / BYTE_DATA_MAX_FULL_VALUE) - 0.5) * 2 // from -6 to 6
+    engine.setValue("[Channel" + deckNumber + "]", "rate", tempo);
+
+    if (mode[deckNumber].status.syncMasterDeck == deckNumber) {
+        engine.setValue("[Channel" + otherDeck[deckNumber] + "]", "bpm", engine.getValue("[Channel" + deckNumber + "]", "bpm"));
+    } else if (mode[otherDeck[deckNumber]].status.syncMasterDeck != deckNumber) {
+        mode[1].status.syncMasterDeck = 0;
+        setLed(1, Ctrl.sync, OFF);
+        mode[2].status.syncMasterDeck = 0;
+        setLed(2, Ctrl.sync, OFF);
     }
 };
 
@@ -467,6 +476,14 @@ DDJ200.init = function () {
         ctrlHandlers[ctrlHandlersArray[i].ctrl] = ctrlHandlersArray[i].handlers;
     }
     // print(JSON.stringify(ctrlHandlers));
+
+    // Checking if a track is already playing
+    if (engine.getParameter("[Channel1]", "play") == 1) {
+        mode[1].status.trackIsPlaying = true;
+    }
+    if (engine.getParameter("[Channel2]", "play") == 1) {
+        mode[2].status.trackIsPlaying = true;
+    }
 
     print("Setting timer");
 
