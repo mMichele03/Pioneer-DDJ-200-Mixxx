@@ -151,6 +151,108 @@ var midiCtrl = {
     0: {},
 };
 
+// Led const
+const ON = 127;
+const OFF = 0;
+
+setLed = function (deck, ctrl, on) {
+    var key = midiCtrl[deck][ctrl];
+
+    if (key === undefined) {
+        print("ERROR: undefined key; deck: " + deck + ", ctrl: " + ctrl);
+    } else {
+        if (on) {
+            midi.sendShortMsg(key.normal.status, key.normal.control, ON);
+        } else {
+            midi.sendShortMsg(key.normal.status, key.normal.control, OFF);
+        }
+        if (key.shifted != null) {
+            if (on) {
+                midi.sendShortMsg(key.shifted.status, key.shifted.control, ON);
+            } else {
+                midi.sendShortMsg(key.shifted.status, key.shifted.control, OFF);
+            }
+        }
+    }
+};
+
+var LedStatusArray = {
+    1: [
+        { ctrl: Ctrl.pad1, status: [false, false, false, false] },
+        { ctrl: Ctrl.pad2, status: [false, false, false, false] },
+        { ctrl: Ctrl.pad3, status: [false, false, false, false] },
+        { ctrl: Ctrl.pad4, status: [false, false, false, false] },
+        { ctrl: Ctrl.pad5, status: [false, false, false, false] },
+        { ctrl: Ctrl.pad6, status: [false, false, false, false] },
+        { ctrl: Ctrl.pad7, status: [false, false, false, false] },
+        { ctrl: Ctrl.pad8, status: [false, false, false, false] },
+        { ctrl: Ctrl.play, status: false },
+        { ctrl: Ctrl.cue, status: false },
+        { ctrl: Ctrl.sync, status: false },
+        { ctrl: Ctrl.headphone, status: false },
+    ],
+    0: [
+        { ctrl: Ctrl.master, status: false },
+        { ctrl: Ctrl.central, status: false },
+    ],
+};
+
+var ledStatus = {
+    current: {
+        1: {},
+        2: {},
+        0: {},
+    },
+    last: {
+        1: {},
+        2: {},
+        0: {},
+    },
+};
+
+setLeds = function () {
+    var deckKeys = Object.keys(ledStatus.current);
+
+    for (deck_i = 0; deck_i < deckKeys.length; deck_i++) {
+        var deckNumber = deckKeys[deck_i];
+        var ctrlKeys = Object.keys(ledStatus.current[deckNumber]);
+
+        for (ctrl_i = 0; ctrl_i < ctrlKeys.length; ctrl_i++) {
+            var ctrl = ctrlKeys[ctrl_i];
+            if (ledStatus.current[deckNumber][ctrl] != ledStatus.last[deckNumber][ctrl]) {
+                setLed(deckNumber, ctrl, ledStatus.current[deckNumber][ctrl]);
+                ledStatus.last[deckNumber][ctrl] = ledStatus.current[deckNumber][ctrl];
+            }
+        }
+    }
+};
+
+setLedsOff = function () {
+    var deckKeys = Object.keys(ledStatus.current);
+
+    for (deck_i = 0; deck_i < deckKeys.length; deck_i++) {
+        var deckNumber = deckKeys[deck_i];
+        var ctrlKeys = Object.keys(ledStatus.current[deckNumber]);
+
+        for (ctrl_i = 0; ctrl_i < ctrlKeys.length; ctrl_i++) {
+            var ctrl = ctrlKeys[ctrl_i];
+            setLed(deckNumber, ctrl, false);
+        }
+    }
+};
+
+setLedOn = function (deckNumber, ctrl) {
+    ledStatus.current[deckNumber][ctrl] = true;
+};
+
+setLedOff = function (deckNumber, ctrl) {
+    ledStatus.current[deckNumber][ctrl] = false;
+};
+
+setLedValue = function (deckNumber, ctrl, value) {
+    ledStatus.current[deckNumber][ctrl] = value ? true : false;
+};
+
 var otherDeck = {
     1: 2,
     2: 1,
@@ -365,11 +467,7 @@ shiftEventHandler = function (deckNumber, value) {
 masterEventHandler = function (deckNumber, value) {
     if (value == 0x7F) {
         mode.master = !mode.master;
-        if (mode.master) {
-            setLed(deckNumber, Ctrl.master, ON);
-        } else {
-            setLed(deckNumber, Ctrl.master, OFF);
-        }
+        setLedValue(deckNumber, Ctrl.master, mode.master);
     }
 };
 
@@ -377,7 +475,7 @@ headphoneEventHandler = function (deckNumber, value) {
     if (value == 0x7F) {
         var NewVal = 1 - engine.getParameter("[Channel" + deckNumber + "]", "pfl");
         engine.setParameter("[Channel" + deckNumber + "]", "pfl", NewVal);
-        setLed(deckNumber, Ctrl.headphone, ON * NewVal);
+        setLedValue(deckNumber, Ctrl.headphone, ON * NewVal);
     }
 };
 
@@ -385,7 +483,7 @@ syncEventHandler = function (deckNumber, value) {
     if (value == 0x7F) {
         if (mode[deckNumber].status.syncMasterDeck == 0) {
             engine.setParameter("[Channel" + deckNumber + "]", "beatsync", 1);
-            setLed(deckNumber, Ctrl.sync, ON);
+            setLedOn(deckNumber, Ctrl.sync);
 
             mode[deckNumber].status.syncMultiplier = engine.getValue("[Channel" + deckNumber + "]", "bpm") / engine.getValue("[Channel" + otherDeck[deckNumber] + "]", "bpm");
 
@@ -395,12 +493,12 @@ syncEventHandler = function (deckNumber, value) {
                 mode[deckNumber].status.syncMasterDeck = otherDeck[deckNumber];
             }
         } else {
-            setLed(deckNumber, Ctrl.sync, OFF);
+            setLedOff(deckNumber, Ctrl.sync);
             mode[deckNumber].status.syncMasterDeck = 0;
             engine.setValue("[Channel" + deckNumber + "]", "bpm", engine.getValue("[Channel" + deckNumber + "]", "file_bpm"));
 
             if (mode[otherDeck[deckNumber]].status.syncMasterDeck == otherDeck[deckNumber]) {
-                setLed(otherDeck[deckNumber], Ctrl.sync, OFF);
+                setLedOff(otherDeck[deckNumber], Ctrl.sync);
                 mode[otherDeck[deckNumber]].status.syncMasterDeck = 0;
             }
         }
@@ -428,9 +526,9 @@ tempoEventHandler = function (deckNumber, fullValue) {
         engine.setValue("[Channel" + otherDeck[deckNumber] + "]", "bpm", engine.getValue("[Channel" + deckNumber + "]", "bpm") * mode[otherDeck[deckNumber]].status.syncMultiplier);
     } else if (mode[otherDeck[deckNumber]].status.syncMasterDeck != deckNumber) {
         mode[1].status.syncMasterDeck = 0;
-        setLed(1, Ctrl.sync, OFF);
+        setLedOff(1, Ctrl.sync);
         mode[2].status.syncMasterDeck = 0;
-        setLed(2, Ctrl.sync, OFF);
+        setLedOff(2, Ctrl.sync);
     }
 };
 
@@ -456,6 +554,7 @@ var ctrlHandlersArray = [
 var ctrlHandlers = {};
 
 DDJ200.init = function () {
+    // midiCtrl
     var statusKeys = Object.keys(logicCtrl);
     for (var s = 0; s < statusKeys.length; s++) {
         var controlKeys = Object.keys(logicCtrl[statusKeys[s]]);
@@ -476,10 +575,22 @@ DDJ200.init = function () {
         }
     }
 
+    // ctrlHandlers
     for (var i = 0; i < ctrlHandlersArray.length; i++) {
         ctrlHandlers[ctrlHandlersArray[i].ctrl] = ctrlHandlersArray[i].handlers;
     }
-    // print(JSON.stringify(ctrlHandlers));
+
+    // ledStatus
+    for (var i = 0; i < LedStatusArray[1].length; i++) {
+        ledStatus.current[1][LedStatusArray[1][i].ctrl] = LedStatusArray[1][i].status;
+        ledStatus.current[2][LedStatusArray[1][i].ctrl] = LedStatusArray[1][i].status;
+        ledStatus.last[1][LedStatusArray[1][i].ctrl] = LedStatusArray[1][i].status;
+        ledStatus.last[2][LedStatusArray[1][i].ctrl] = LedStatusArray[1][i].status;
+    }
+    for (var i = 0; i < LedStatusArray[0].length; i++) {
+        ledStatus.current[0][LedStatusArray[0][i].ctrl] = LedStatusArray[0][i].status;
+        ledStatus.last[0][LedStatusArray[0][i].ctrl] = LedStatusArray[0][i].status;
+    }
 
     // Checking if a track is already playing
     if (engine.getParameter("[Channel1]", "play") == 1) {
@@ -489,8 +600,7 @@ DDJ200.init = function () {
         mode[2].status.trackIsPlaying = true;
     }
 
-    print("Setting timer");
-
+    // Track status led timer
     var counter = 0;
     engine.beginTimer(250, function () {
         var currentTrackSamples = {
@@ -500,15 +610,15 @@ DDJ200.init = function () {
         if (currentTrackSamples[1] != mode[1].status.trackSamples) {
             mode[1].status.trackSamples = currentTrackSamples[1];
             if (mode[1].status.trackSamples == 0) {
-                setLed(1, Ctrl.play, OFF);
-                setLed(1, Ctrl.cue, OFF);
+                setLedOff(1, Ctrl.play);
+                setLedOff(1, Ctrl.cue);
             }
         }
         if (currentTrackSamples[2] != mode[2].status.trackSamples) {
             mode[2].status.trackSamples = currentTrackSamples[2];
             if (mode[2].status.trackSamples == 0) {
-                setLed(2, Ctrl.play, OFF);
-                setLed(2, Ctrl.cue, OFF);
+                setLedOff(2, Ctrl.play);
+                setLedOff(2, Ctrl.cue);
             }
         }
         var playLedSetting = (counter - (counter % 2)) / 2;
@@ -516,28 +626,28 @@ DDJ200.init = function () {
 
         if (mode[1].status.trackSamples != 0) {
             if (mode[1].status.trackIsPlaying) {
-                setLed(1, Ctrl.play, ON);
-                setLed(1, Ctrl.cue, ON);
+                setLedOn(1, Ctrl.play);
+                setLedOn(1, Ctrl.cue);
             } else {
-                setLed(1, Ctrl.play, ON * playLedSetting);
+                setLedValue(1, Ctrl.play, playLedSetting);
                 if (mode[1].status.onCuePosition) {
-                    setLed(1, Ctrl.cue, ON);
+                    setLedOn(1, Ctrl.cue);
                 } else {
-                    setLed(1, Ctrl.cue, ON * cueLedSetting);
+                    setLedValue(1, Ctrl.cue, cueLedSetting);
                 }
             }
         }
 
         if (mode[2].status.trackSamples != 0) {
             if (mode[2].status.trackIsPlaying) {
-                setLed(2, Ctrl.play, ON);
-                setLed(2, Ctrl.cue, ON);
+                setLedOn(2, Ctrl.play);
+                setLedOn(2, Ctrl.cue);
             } else {
-                setLed(2, Ctrl.play, ON * playLedSetting);
+                setLedValue(2, Ctrl.play, playLedSetting);
                 if (mode[2].status.onCuePosition) {
-                    setLed(2, Ctrl.cue, ON);
+                    setLedOn(2, Ctrl.cue);
                 } else {
-                    setLed(2, Ctrl.cue, ON * cueLedSetting);
+                    setLedValue(2, Ctrl.cue, cueLedSetting);
                 }
             }
         }
@@ -546,38 +656,13 @@ DDJ200.init = function () {
         if (counter == 4) {
             counter = 0;
         }
-    });
 
-    print("Timer set");
+        setLeds();
+    });
 };
 
 DDJ200.shutdown = function () {
-    setLed(1, Ctrl.play, OFF);
-    setLed(1, Ctrl.cue, OFF);
-    setLed(2, Ctrl.play, OFF);
-    setLed(2, Ctrl.cue, OFF);
-    setLed(1, Ctrl.sync, OFF);
-    setLed(2, Ctrl.sync, OFF);
-    setLed(1, Ctrl.headphone, OFF);
-    setLed(2, Ctrl.headphone, OFF);
-    setLed(0, Ctrl.master, OFF);
-};
-
-// Led const
-const ON = 127;
-const OFF = 0;
-
-setLed = function (deck, ctrl, on_off) {
-    var key = midiCtrl[deck][ctrl];
-
-    if (key === undefined) {
-        print("ERROR: undefined key");
-    } else {
-        midi.sendShortMsg(key.normal.status, key.normal.control, on_off);
-        if (key.shifted != null) {
-            midi.sendShortMsg(key.shifted.status, key.shifted.control, on_off);
-        }
-    }
+    setLeds();
 };
 
 DDJ200.eventHandler = function (channel, control, value, status, group) {
@@ -615,6 +700,8 @@ DDJ200.eventHandler = function (channel, control, value, status, group) {
     } else {
         print("ERROR: undefined control");
     }
+
+    setLeds();
 };
 
 /*
