@@ -662,7 +662,7 @@ DDJ200.init = function () {
 };
 
 DDJ200.shutdown = function () {
-    setLeds();
+    setLedsOff();
 };
 
 DDJ200.eventHandler = function (channel, control, value, status, group) {
