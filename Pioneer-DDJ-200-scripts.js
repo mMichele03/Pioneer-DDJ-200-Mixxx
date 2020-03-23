@@ -471,6 +471,34 @@ masterEventHandler = function (deckNumber, value) {
     }
 };
 
+centralEventHandler = function (deckNumber, value) {
+    if (value == 0x7F) {
+        mode.choosePadMode = !mode.choosePadMode;
+        setLedValue(deckNumber, Ctrl.central, mode.choosePadMode);
+
+        if (mode.choosePadMode) {
+            var counter = 0;
+            var timer = engine.beginTimer(80, function () {
+                if (counter > 0) {
+                    setLed(1, 4 - counter, false);
+                    setLed(1, 8 - counter, false);
+                    setLed(2, counter - 1, false);
+                    setLed(2, counter + 3, false);
+                }
+                if (counter < 4) {
+                    setLed(1, 3 - counter, true);
+                    setLed(1, 7 - counter, true);
+                    setLed(2, counter, true);
+                    setLed(2, counter + 4, true);
+                } else {
+                    engine.stopTimer(timer);
+                }
+                counter++;
+            });
+        }
+    }
+};
+
 headphoneEventHandler = function (deckNumber, value) {
     if (value == 0x7F) {
         var NewVal = 1 - engine.getParameter("[Channel" + deckNumber + "]", "pfl");
@@ -547,6 +575,7 @@ var ctrlHandlersArray = [
     { ctrl: Ctrl.cue, handlers: genericCtrl(cueEventHandler) },
     { ctrl: Ctrl.shift, handlers: genericCtrl(shiftEventHandler) },
     { ctrl: Ctrl.master, handlers: genericCtrl(masterEventHandler) },
+    { ctrl: Ctrl.central, handlers: genericCtrl(centralEventHandler) },
     { ctrl: Ctrl.headphone, handlers: genericCtrl(headphoneEventHandler) },
     { ctrl: Ctrl.sync, handlers: genericAndMasterCtrl(syncMasterEventHandler, syncEventHandler) },
 ];
