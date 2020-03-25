@@ -400,6 +400,32 @@ setPadLedsStatus = function () {
         }
     }
 
+    for (var ctrl = Ctrl.pad5; ctrl <= Ctrl.pad8; ctrl++) {
+        var padEffectNumber = ctrl - 3;
+        if (padEffectNumber < 4) {
+            if (engine.getParameter("[EffectRack1_EffectUnit1_Effect" + padEffectNumber + "]", "enabled") == 1) {
+                mode[1].status.padLeds[ctrl][BottomPadsMode.padFx] = true;
+            } else {
+                mode[1].status.padLeds[ctrl][BottomPadsMode.padFx] = false;
+            }
+            if (engine.getParameter("[EffectRack1_EffectUnit2_Effect" + padEffectNumber + "]", "enabled") == 1) {
+                mode[2].status.padLeds[ctrl][BottomPadsMode.padFx] = true;
+            } else {
+                mode[2].status.padLeds[ctrl][BottomPadsMode.padFx] = false;
+            }
+        }
+    }
+    if (engine.getParameter("[Channel1]", "loop_enabled") == 1) {
+        mode[1].status.padLeds[Ctrl.pad6][BottomPadsMode.loop] = true;
+    } else {
+        mode[1].status.padLeds[Ctrl.pad6][BottomPadsMode.loop] = false;
+    }
+    if (engine.getParameter("[Channel2]", "loop_enabled") == 1) {
+        mode[2].status.padLeds[Ctrl.pad6][BottomPadsMode.loop] = true;
+    } else {
+        mode[2].status.padLeds[Ctrl.pad6][BottomPadsMode.loop] = false;
+    }
+
     if (mode.transition.timerID != null) {
     } else if (mode.master) {
         for (var ctrl = Ctrl.pad1; ctrl <= Ctrl.pad8; ctrl++) {
@@ -928,9 +954,9 @@ pad4KnobFxEventHandler = function (deckNumber, value) {
 
 setPadEffect = function (deckNumber, effectNumber, on) {
     if (on) {
-        engine.setValue("[EffectRack1_EffectUnit" + deckNumber + "_Effect" + effectNumber + "]", "enabled", 1);
+        engine.setParameter("[EffectRack1_EffectUnit" + deckNumber + "_Effect" + effectNumber + "]", "enabled", 1);
     } else {
-        engine.setValue("[EffectRack1_EffectUnit" + deckNumber + "_Effect" + effectNumber + "]", "enabled", 0);
+        engine.setParameter("[EffectRack1_EffectUnit" + deckNumber + "_Effect" + effectNumber + "]", "enabled", 0);
     }
 };
 
@@ -988,16 +1014,116 @@ pad3PadFxEventHandler = function (deckNumber, value) {
 pad4PadFxEventHandler = function (deckNumber, value) {
     if (value == 0x7F) {
         setPadLedOn(deckNumber, Ctrl.pad4);
+        mode[deckNumber].status.padLeds[Ctrl.pad8][BottomPadsMode.padFx] = true;
         // engine.setValue("[Channel" + deckNumber + "]", "slip_enabled", 1);
         mode[deckNumber].status.trackIsPlaying = false;
         engine.brake(deckNumber, true, 50);
     } else {
         setPadLedOff(deckNumber, Ctrl.pad4);
+        mode[deckNumber].status.padLeds[Ctrl.pad8][BottomPadsMode.padFx] = false;
+    }
+};
+
+pad5PadFxEventHandler = function (deckNumber, value) {
+    if (value == 0x7F) {
+        if (mode[deckNumber].shift) {
+            mode[deckNumber].status.padEffectsLock[1] = true;
+        } else {
+            mode[deckNumber].status.padEffectsLock[1] = false;
+        }
+        setPadEffect(deckNumber, 1, true);
+    } else if (!mode[deckNumber].status.padEffectsLock[1]) {
+        if (mode[deckNumber].shift) {
+            mode[deckNumber].status.padEffectsLock[1] = true;
+        } else {
+            setPadEffect(deckNumber, 1, false);
+        }
+    }
+};
+
+pad6PadFxEventHandler = function (deckNumber, value) {
+    if (value == 0x7F) {
+        if (mode[deckNumber].shift) {
+            mode[deckNumber].status.padEffectsLock[2] = true;
+        } else {
+            mode[deckNumber].status.padEffectsLock[2] = false;
+        }
+        setPadEffect(deckNumber, 2, true);
+    } else if (!mode[deckNumber].status.padEffectsLock[2]) {
+        if (mode[deckNumber].shift) {
+            mode[deckNumber].status.padEffectsLock[2] = true;
+        } else {
+            setPadEffect(deckNumber, 2, false);
+        }
+    }
+};
+
+pad7PadFxEventHandler = function (deckNumber, value) {
+    if (value == 0x7F) {
+        if (mode[deckNumber].shift) {
+            mode[deckNumber].status.padEffectsLock[3] = true;
+        } else {
+            mode[deckNumber].status.padEffectsLock[3] = false;
+        }
+        setPadEffect(deckNumber, 3, true);
+    } else if (!mode[deckNumber].status.padEffectsLock[3]) {
+        if (mode[deckNumber].shift) {
+            mode[deckNumber].status.padEffectsLock[3] = true;
+        } else {
+            setPadEffect(deckNumber, 3, false);
+        }
+    }
+};
+
+pad8PadFxEventHandler = function (deckNumber, value) {
+    if (value == 0x7F) {
+        setPadLedOn(deckNumber, Ctrl.pad8);
+        mode[deckNumber].status.padLeds[Ctrl.pad4][TopPadsMode.padFx] = true;
+        // engine.setValue("[Channel" + deckNumber + "]", "slip_enabled", 1);
+        mode[deckNumber].status.trackIsPlaying = false;
+        engine.brake(deckNumber, true, 50);
+    } else {
+        setPadLedOff(deckNumber, Ctrl.pad8);
+        mode[deckNumber].status.padLeds[Ctrl.pad4][TopPadsMode.padFx] = false;
+    }
+};
+
+pad5LoopEventHandler = function (deckNumber, value) {
+    if (value == 0x7F) {
+        var last = engine.getValue("[Channel" + deckNumber + "]", "beatloop_size");
+        engine.setValue("[Channel" + deckNumber + "]", "beatloop_size", last / 2);
+        setPadLedOn(deckNumber, Ctrl.pad5);
+    } else {
+        setPadLedOff(deckNumber, Ctrl.pad5);
+    }
+};
+
+pad6LoopEventHandler = function (deckNumber, value) {
+    if (value == 0x7F) {
+        if (engine.getParameter("[Channel" + deckNumber + "]", "loop_enabled") == 0) {
+            if (mode[deckNumber].shift) {
+                engine.setParameter("[Channel" + deckNumber + "]", "reloop_toggle", 1);
+            } else {
+                engine.setParameter("[Channel" + deckNumber + "]", "beatloop_activate", 1);
+                engine.setParameter("[Channel" + deckNumber + "]", "beatloop_activate", 0);
+            }
+        } else {
+            engine.setParameter("[Channel" + deckNumber + "]", "reloop_toggle", 1);
+        }
+    }
+};
+
+pad7LoopEventHandler = function (deckNumber, value) {
+    if (value == 0x7F) {
+        var last = engine.getValue("[Channel" + deckNumber + "]", "beatloop_size");
+        engine.setValue("[Channel" + deckNumber + "]", "beatloop_size", last * 2);
+        setPadLedOn(deckNumber, Ctrl.pad7);
+    } else {
+        setPadLedOff(deckNumber, Ctrl.pad7);
     }
 };
 
 var ctrlHandlersArray = [
-    { ctrl: Ctrl.play, handlers: genericCtrl(function (s1, s2) { print(s1 + " " + s2) }) },
     { ctrl: Ctrl.volume, handlers: genericCtrl(volumeEventHandler) },
     { ctrl: Ctrl.tempo, handlers: genericCtrl(tempoEventHandler) },
     { ctrl: Ctrl.crossfader, handlers: genericCtrl(crossfaderEventHandler) },
@@ -1018,6 +1144,10 @@ var ctrlHandlersArray = [
     { ctrl: Ctrl.pad2, handlers: topPad(pad2MasterEventHandler, pad2ChoosePadModeEventHandler, pad2Hotcues1EventHandler, pad2Hotcues2EventHandler, pad2KnobFxEventHandler, pad2PadFxEventHandler) },
     { ctrl: Ctrl.pad3, handlers: topPad(pad3MasterEventHandler, pad3ChoosePadModeEventHandler, pad3Hotcues1EventHandler, pad3Hotcues2EventHandler, pad3KnobFxEventHandler, pad3PadFxEventHandler) },
     { ctrl: Ctrl.pad4, handlers: topPad(pad4MasterEventHandler, pad4ChoosePadModeEventHandler, pad4Hotcues1EventHandler, pad4Hotcues2EventHandler, pad4KnobFxEventHandler, pad4PadFxEventHandler) },
+    { ctrl: Ctrl.pad5, handlers: bottomPad(pad5MasterEventHandler, pad5ChoosePadModeEventHandler, pad5LoopEventHandler, null, null, pad5PadFxEventHandler) },
+    { ctrl: Ctrl.pad6, handlers: bottomPad(pad6MasterEventHandler, pad6ChoosePadModeEventHandler, pad6LoopEventHandler, null, null, pad6PadFxEventHandler) },
+    { ctrl: Ctrl.pad7, handlers: bottomPad(pad7MasterEventHandler, pad7ChoosePadModeEventHandler, pad7LoopEventHandler, null, null, pad7PadFxEventHandler) },
+    { ctrl: Ctrl.pad8, handlers: bottomPad(pad8MasterEventHandler, pad8ChoosePadModeEventHandler, null, null, null, pad8PadFxEventHandler) },
 ];
 
 var ctrlHandlers = {};
