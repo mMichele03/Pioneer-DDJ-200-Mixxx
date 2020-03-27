@@ -104,6 +104,7 @@ var logicCtrl = {
     0xB0: {
         0x21: { deck: 1, ctrl: Ctrl.jogWheelTurn, shift: false, valueKind: ValueKind.normal },
         0x22: { deck: 1, ctrl: Ctrl.jogWheelTurn, shift: true, valueKind: ValueKind.normal },
+        0x29: { deck: 1, ctrl: Ctrl.jogWheelTurn, shift: true, valueKind: ValueKind.normal },
         0x13: { deck: 1, ctrl: Ctrl.volume, shift: false, valueKind: ValueKind.msb },
         0x33: { deck: 1, ctrl: Ctrl.volume, shift: false, valueKind: ValueKind.lsb },
         0x00: { deck: 1, ctrl: Ctrl.tempo, shift: false, valueKind: ValueKind.msb },
@@ -118,6 +119,7 @@ var logicCtrl = {
     0xB1: {
         0x21: { deck: 2, ctrl: Ctrl.jogWheelTurn, shift: false, valueKind: ValueKind.normal },
         0x22: { deck: 2, ctrl: Ctrl.jogWheelTurn, shift: true, valueKind: ValueKind.normal },
+        0x29: { deck: 2, ctrl: Ctrl.jogWheelTurn, shift: true, valueKind: ValueKind.normal },
         0x13: { deck: 2, ctrl: Ctrl.volume, shift: false, valueKind: ValueKind.msb },
         0x33: { deck: 2, ctrl: Ctrl.volume, shift: false, valueKind: ValueKind.lsb },
         0x00: { deck: 2, ctrl: Ctrl.tempo, shift: false, valueKind: ValueKind.msb },
@@ -292,6 +294,15 @@ var BottomPadsMode = {
     padFx: 3,
 };
 
+var KnobMode = {
+    eqHigh: 0,
+    eqMiddle: 1,
+    eqLow: 2,
+    effect1: 3,
+    effect2: 4,
+    effect3: 5,
+};
+
 var mode = {
     master: false,
     choosePadMode: false,
@@ -305,6 +316,9 @@ var mode = {
     1: {
         topPads: TopPadsMode.hotcues1,
         bottomPads: BottomPadsMode.padFx,
+        eqHighKnob: KnobMode.eqHigh,
+        eqMiddleKnob: KnobMode.eqMiddle,
+        eqLowKnob: KnobMode.eqLow,
         shift: false,
         status: {
             trackSamples: -1, // 0 if not loaded (init with -1 so that it is always different from any possible value)
@@ -333,6 +347,9 @@ var mode = {
     2: {
         topPads: TopPadsMode.hotcues1,
         bottomPads: BottomPadsMode.padFx,
+        eqHighKnob: KnobMode.eqHigh,
+        eqMiddleKnob: KnobMode.eqMiddle,
+        eqLowKnob: KnobMode.eqLow,
         shift: false,
         status: {
             trackSamples: -1, // 0 if not loaded (init with -1 so that it is always different from any possible value)
@@ -920,27 +937,68 @@ pad4Hotcues2EventHandler = function (deckNumber, value) {
     }
 };
 
+setPadEffect = function (deckNumber, effectNumber, on) {
+    if (on) {
+        engine.setParameter("[EffectRack1_EffectUnit" + deckNumber + "_Effect" + effectNumber + "]", "enabled", 1);
+    } else {
+        engine.setParameter("[EffectRack1_EffectUnit" + deckNumber + "_Effect" + effectNumber + "]", "enabled", 0);
+    }
+};
+
 pad1KnobFxEventHandler = function (deckNumber, value) {
     if (value == 0x7F) {
-        setPadLedOn(deckNumber, Ctrl.pad1);
-    } else {
-        setPadLedOff(deckNumber, Ctrl.pad1);
+        if (mode[deckNumber].shift) {
+            mode[deckNumber].status.padEffectsLock[1] = true;
+        } else {
+            mode[deckNumber].status.padEffectsLock[1] = false;
+        }
+        setPadEffect(deckNumber, 1, true);
+        mode[deckNumber].eqHighKnob = KnobMode.effect1;
+    } else if (!mode[deckNumber].status.padEffectsLock[1]) {
+        if (mode[deckNumber].shift) {
+            mode[deckNumber].status.padEffectsLock[1] = true;
+        } else {
+            setPadEffect(deckNumber, 1, false);
+            mode[deckNumber].eqHighKnob = KnobMode.eqHigh;
+        }
     }
 };
 
 pad2KnobFxEventHandler = function (deckNumber, value) {
     if (value == 0x7F) {
-        setPadLedOn(deckNumber, Ctrl.pad2);
-    } else {
-        setPadLedOff(deckNumber, Ctrl.pad2);
+        if (mode[deckNumber].shift) {
+            mode[deckNumber].status.padEffectsLock[2] = true;
+        } else {
+            mode[deckNumber].status.padEffectsLock[2] = false;
+        }
+        setPadEffect(deckNumber, 2, true);
+        mode[deckNumber].eqMiddleKnob = KnobMode.effect2;
+    } else if (!mode[deckNumber].status.padEffectsLock[2]) {
+        if (mode[deckNumber].shift) {
+            mode[deckNumber].status.padEffectsLock[2] = true;
+        } else {
+            setPadEffect(deckNumber, 2, false);
+            mode[deckNumber].eqMiddleKnob = KnobMode.eqMiddle;
+        }
     }
 };
 
 pad3KnobFxEventHandler = function (deckNumber, value) {
     if (value == 0x7F) {
-        setPadLedOn(deckNumber, Ctrl.pad3);
-    } else {
-        setPadLedOff(deckNumber, Ctrl.pad3);
+        if (mode[deckNumber].shift) {
+            mode[deckNumber].status.padEffectsLock[3] = true;
+        } else {
+            mode[deckNumber].status.padEffectsLock[3] = false;
+        }
+        setPadEffect(deckNumber, 3, true);
+        mode[deckNumber].eqLowKnob = KnobMode.effect3;
+    } else if (!mode[deckNumber].status.padEffectsLock[3]) {
+        if (mode[deckNumber].shift) {
+            mode[deckNumber].status.padEffectsLock[3] = true;
+        } else {
+            setPadEffect(deckNumber, 3, false);
+            mode[deckNumber].eqLowKnob = KnobMode.eqLow;
+        }
     }
 };
 
@@ -949,14 +1007,6 @@ pad4KnobFxEventHandler = function (deckNumber, value) {
         setPadLedOn(deckNumber, Ctrl.pad4);
     } else {
         setPadLedOff(deckNumber, Ctrl.pad4);
-    }
-};
-
-setPadEffect = function (deckNumber, effectNumber, on) {
-    if (on) {
-        engine.setParameter("[EffectRack1_EffectUnit" + deckNumber + "_Effect" + effectNumber + "]", "enabled", 1);
-    } else {
-        engine.setParameter("[EffectRack1_EffectUnit" + deckNumber + "_Effect" + effectNumber + "]", "enabled", 0);
     }
 };
 
@@ -1021,6 +1071,14 @@ pad4PadFxEventHandler = function (deckNumber, value) {
     } else {
         setPadLedOff(deckNumber, Ctrl.pad4);
         mode[deckNumber].status.padLeds[Ctrl.pad8][BottomPadsMode.padFx] = false;
+        mode[deckNumber].status.trackIsPlaying = true;
+        mode[deckNumber].status.onCuePosition = false;
+        if (mode[deckNumber].shift) {
+            engine.softStart(deckNumber, true, 50);
+        } else {
+            engine.brake(deckNumber, false);
+            engine.setParameter("[Channel" + deckNumber + "]", "play", 1);
+        }
     }
 };
 
@@ -1085,6 +1143,14 @@ pad8PadFxEventHandler = function (deckNumber, value) {
     } else {
         setPadLedOff(deckNumber, Ctrl.pad8);
         mode[deckNumber].status.padLeds[Ctrl.pad4][TopPadsMode.padFx] = false;
+        mode[deckNumber].status.trackIsPlaying = true;
+        mode[deckNumber].status.onCuePosition = false;
+        if (mode[deckNumber].shift) {
+            engine.softStart(deckNumber, true, 50);
+        } else {
+            engine.brake(deckNumber, false);
+            engine.setParameter("[Channel" + deckNumber + "]", "play", 1);
+        }
     }
 };
 
@@ -1109,6 +1175,8 @@ pad6LoopEventHandler = function (deckNumber, value) {
             }
         } else {
             engine.setParameter("[Channel" + deckNumber + "]", "reloop_toggle", 1);
+            engine.setParameter("[Channel" + deckNumber + "]", "loop_in", 0);
+            engine.setParameter("[Channel" + deckNumber + "]", "loop_out", 0);
         }
     }
 };
@@ -1120,6 +1188,22 @@ pad7LoopEventHandler = function (deckNumber, value) {
         setPadLedOn(deckNumber, Ctrl.pad7);
     } else {
         setPadLedOff(deckNumber, Ctrl.pad7);
+    }
+};
+
+pad8LoopEventHandler = function (deckNumber, value) {
+    if (value == 0x7F) {
+        if (engine.getParameter("[Channel" + deckNumber + "]", "loop_enabled") == 0) {
+            if (engine.getParameter("[Channel" + deckNumber + "]", "loop_in") == 0) {
+                engine.setParameter("[Channel" + deckNumber + "]", "loop_out", 0);
+                engine.setParameter("[Channel" + deckNumber + "]", "loop_in", 1);
+            } else {
+                engine.setParameter("[Channel" + deckNumber + "]", "loop_out", 1);
+            }
+        }
+        setPadLedOn(deckNumber, Ctrl.pad8);
+    } else {
+        setPadLedOff(deckNumber, Ctrl.pad8);
     }
 };
 
@@ -1147,7 +1231,7 @@ var ctrlHandlersArray = [
     { ctrl: Ctrl.pad5, handlers: bottomPad(pad5MasterEventHandler, pad5ChoosePadModeEventHandler, pad5LoopEventHandler, null, null, pad5PadFxEventHandler) },
     { ctrl: Ctrl.pad6, handlers: bottomPad(pad6MasterEventHandler, pad6ChoosePadModeEventHandler, pad6LoopEventHandler, null, null, pad6PadFxEventHandler) },
     { ctrl: Ctrl.pad7, handlers: bottomPad(pad7MasterEventHandler, pad7ChoosePadModeEventHandler, pad7LoopEventHandler, null, null, pad7PadFxEventHandler) },
-    { ctrl: Ctrl.pad8, handlers: bottomPad(pad8MasterEventHandler, pad8ChoosePadModeEventHandler, null, null, null, pad8PadFxEventHandler) },
+    { ctrl: Ctrl.pad8, handlers: bottomPad(pad8MasterEventHandler, pad8ChoosePadModeEventHandler, pad8LoopEventHandler, null, null, pad8PadFxEventHandler) },
 ];
 
 var ctrlHandlers = {};
