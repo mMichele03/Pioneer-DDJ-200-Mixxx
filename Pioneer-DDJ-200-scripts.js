@@ -325,11 +325,11 @@ var mode = {
     master: false,
     choosePadMode: false,
     transition: {
-        timerID: null,
-        deck: null,
-        column: null,
-        row: null,
-        onOrOffCounter: null,
+        timerID: null, // timer id number (null if there isn't a transition)
+        deck: null, // 1,2 (0 if both)
+        column: null, // 0,1,2,3 (null if all of them)
+        row: null, // 1,2 (null if both)
+        onOrOffCounter: null, // even number -> ON, odd number -> OFF
     },
     1: {
         topPads: TopPadsMode.hotcues1,
@@ -387,6 +387,39 @@ var mode = {
             },
         },
     },
+};
+
+stopTransition = function () {
+    if (mode.transition.timerID != null) {
+        engine.stopTimer(mode.transition.timerID);
+        mode.transition = {
+            timerID: null,
+            deck: null,
+            column: null,
+            row: null,
+            onOrOffCounter: null,
+        };
+    }
+};
+
+setTransition = function (deckNumber, column, row, nextHandler, time) {
+    stopTransition();
+    mode.transition.deck = deckNumber;
+    mode.transition.column = column;
+    mode.transition.row = row;
+    mode.transition.onOrOffCounter = 0;
+
+    setPadLedsStatus();
+    setLeds();
+
+    mode.transition.timerID = engine.beginTimer(time, function () {
+        if (nextHandler()) {
+            stopTransition();
+        }
+
+        setPadLedsStatus();
+        setLeds();
+    });
 };
 
 setPadLedsStatus = function () {
@@ -470,6 +503,53 @@ setPadLedsStatus = function () {
     }
 
     if (mode.transition.timerID != null) {
+        if (mode.transition.deck == 0) {
+            if (mode.transition.column == null) {
+                for (var ctrl = Ctrl.pad1; ctrl <= Ctrl.pad8; ctrl++) {
+                    if (mode.transition.onOrOffCounter % 2 != 1) {
+                        ledStatus.next[1][ctrl] = true;
+                        ledStatus.next[2][ctrl] = true;
+                    } else {
+                        ledStatus.next[1][ctrl] = false;
+                        ledStatus.next[2][ctrl] = false;
+                    }
+                }
+            } else {
+                for (var ctrl = Ctrl.pad1; ctrl <= Ctrl.pad4; ctrl++) {
+                    if (mode.transition.column == ctrl) {
+                        ledStatus.next[1][3 - ctrl] = true;
+                        ledStatus.next[2][ctrl] = true;
+                    } else {
+                        ledStatus.next[1][3 - ctrl] = false;
+                        ledStatus.next[2][ctrl] = false;
+                    }
+                }
+                for (var ctrl = Ctrl.pad5; ctrl <= Ctrl.pad8; ctrl++) {
+                    if (mode.transition.column == ctrl - 4) {
+                        ledStatus.next[1][7 - (ctrl - 4)] = true;
+                        ledStatus.next[2][ctrl] = true;
+                    } else {
+                        ledStatus.next[1][7 - (ctrl - 4)] = false;
+                        ledStatus.next[2][ctrl] = false;
+                    }
+                }
+            }
+        } else {
+            for (var ctrl = Ctrl.pad1; ctrl <= Ctrl.pad4; ctrl++) {
+                if (mode.transition.row == 1 && mode.transition.onOrOffCounter % 2 != 1) {
+                    ledStatus.next[mode.transition.deck][ctrl] = true;
+                } else {
+                    ledStatus.next[mode.transition.deck][ctrl] = false;
+                }
+            }
+            for (var ctrl = Ctrl.pad5; ctrl <= Ctrl.pad8; ctrl++) {
+                if (mode.transition.row == 2 && mode.transition.onOrOffCounter % 2 != 1) {
+                    ledStatus.next[mode.transition.deck][ctrl] = true;
+                } else {
+                    ledStatus.next[mode.transition.deck][ctrl] = false;
+                }
+            }
+        }
     } else if (mode.master) {
         for (var ctrl = Ctrl.pad1; ctrl <= Ctrl.pad8; ctrl++) {
             ledStatus.next[1][ctrl] = mode[1].status.padLeds[ctrl][4];
@@ -723,16 +803,29 @@ shiftEventHandler = function (deckNumber, value) {
     }
 };
 
+const MASTER_TRANSITION_TIME = 100;
+
 masterEventHandler = function (deckNumber, value) {
     if (value == 0x7F) {
         mode.master = !mode.master;
         if (mode.master) {
             mode.choosePadMode = false;
             setLedOff(0, Ctrl.central);
+
+            setTransition(0, null, null, function () {
+                mode.transition.onOrOffCounter++;
+                if (mode.transition.onOrOffCounter >= 3) {
+                    return true;
+                } else {
+                    return false;
+                }
+            }, MASTER_TRANSITION_TIME);
         }
         setLedValue(deckNumber, Ctrl.master, mode.master);
     }
 };
+
+const CENTRAL_TRANSITION_TIME = 50;
 
 centralEventHandler = function (deckNumber, value) {
     if (value == 0x7F) {
@@ -742,6 +835,15 @@ centralEventHandler = function (deckNumber, value) {
         if (mode.choosePadMode) {
             mode.master = false;
             setLedOff(0, Ctrl.master);
+
+            setTransition(0, 0, null, function () {
+                mode.transition.column++;
+                if (mode.transition.column >= 4) {
+                    return true;
+                } else {
+                    return false;
+                }
+            }, CENTRAL_TRANSITION_TIME);
             /*
             var counter = 0;
             var timer = engine.beginTimer(80, function () {
@@ -898,11 +1000,23 @@ pad8MasterEventHandler = function (deckNumber, value) {
     }
 };
 
+padModeChosenTransitionHandler = function () {
+    mode.transition.onOrOffCounter++;
+    if (mode.transition.onOrOffCounter >= 1) {
+        return true;
+    } else {
+        return false;
+    }
+}
+
+const PAD_MODE_CHOSEN_TRANSITION_TIME = 200;
+
 pad1ChoosePadModeEventHandler = function (deckNumber, value) {
     if (value == 0x7F) {
         mode[deckNumber].topPads = TopPadsMode.hotcues1;
         mode.choosePadMode = false;
         setLedOff(0, Ctrl.central);
+        setTransition(deckNumber, null, 1, padModeChosenTransitionHandler, PAD_MODE_CHOSEN_TRANSITION_TIME);
     }
 };
 
@@ -911,6 +1025,7 @@ pad2ChoosePadModeEventHandler = function (deckNumber, value) {
         mode[deckNumber].topPads = TopPadsMode.hotcues2;
         mode.choosePadMode = false;
         setLedOff(0, Ctrl.central);
+        setTransition(deckNumber, null, 1, padModeChosenTransitionHandler, PAD_MODE_CHOSEN_TRANSITION_TIME);
     }
 };
 
@@ -919,6 +1034,7 @@ pad3ChoosePadModeEventHandler = function (deckNumber, value) {
         mode[deckNumber].topPads = TopPadsMode.knobFx;
         mode.choosePadMode = false;
         setLedOff(0, Ctrl.central);
+        setTransition(deckNumber, null, 1, padModeChosenTransitionHandler, PAD_MODE_CHOSEN_TRANSITION_TIME);
     }
 };
 
@@ -927,6 +1043,7 @@ pad4ChoosePadModeEventHandler = function (deckNumber, value) {
         mode[deckNumber].topPads = TopPadsMode.padFx;
         mode.choosePadMode = false;
         setLedOff(0, Ctrl.central);
+        setTransition(deckNumber, null, 1, padModeChosenTransitionHandler, PAD_MODE_CHOSEN_TRANSITION_TIME);
     }
 };
 
@@ -935,6 +1052,7 @@ pad5ChoosePadModeEventHandler = function (deckNumber, value) {
         mode[deckNumber].bottomPads = BottomPadsMode.loop;
         mode.choosePadMode = false;
         setLedOff(0, Ctrl.central);
+        setTransition(deckNumber, null, 2, padModeChosenTransitionHandler, PAD_MODE_CHOSEN_TRANSITION_TIME);
     }
 };
 
@@ -943,6 +1061,7 @@ pad6ChoosePadModeEventHandler = function (deckNumber, value) {
         mode[deckNumber].bottomPads = BottomPadsMode.roll;
         mode.choosePadMode = false;
         setLedOff(0, Ctrl.central);
+        setTransition(deckNumber, null, 2, padModeChosenTransitionHandler, PAD_MODE_CHOSEN_TRANSITION_TIME);
     }
 };
 
@@ -951,6 +1070,7 @@ pad7ChoosePadModeEventHandler = function (deckNumber, value) {
         mode[deckNumber].bottomPads = BottomPadsMode.samples;
         mode.choosePadMode = false;
         setLedOff(0, Ctrl.central);
+        setTransition(deckNumber, null, 2, padModeChosenTransitionHandler, PAD_MODE_CHOSEN_TRANSITION_TIME);
     }
 };
 
@@ -959,6 +1079,7 @@ pad8ChoosePadModeEventHandler = function (deckNumber, value) {
         mode[deckNumber].bottomPads = BottomPadsMode.padFx;
         mode.choosePadMode = false;
         setLedOff(0, Ctrl.central);
+        setTransition(deckNumber, null, 2, padModeChosenTransitionHandler, PAD_MODE_CHOSEN_TRANSITION_TIME);
     }
 };
 
