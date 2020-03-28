@@ -200,7 +200,7 @@ var LedStatusArray = {
 };
 
 var ledStatus = {
-    current: {
+    next: {
         1: {},
         2: {},
         0: {},
@@ -213,28 +213,28 @@ var ledStatus = {
 };
 
 setLeds = function () {
-    var deckKeys = Object.keys(ledStatus.current);
+    var deckKeys = Object.keys(ledStatus.next);
 
     for (deck_i = 0; deck_i < deckKeys.length; deck_i++) {
         var deckNumber = deckKeys[deck_i];
-        var ctrlKeys = Object.keys(ledStatus.current[deckNumber]);
+        var ctrlKeys = Object.keys(ledStatus.next[deckNumber]);
 
         for (ctrl_i = 0; ctrl_i < ctrlKeys.length; ctrl_i++) {
             var ctrl = ctrlKeys[ctrl_i];
-            if (ledStatus.current[deckNumber][ctrl] != ledStatus.last[deckNumber][ctrl]) {
-                setLed(deckNumber, ctrl, ledStatus.current[deckNumber][ctrl]);
-                ledStatus.last[deckNumber][ctrl] = ledStatus.current[deckNumber][ctrl];
+            if (ledStatus.next[deckNumber][ctrl] != ledStatus.last[deckNumber][ctrl]) {
+                setLed(deckNumber, ctrl, ledStatus.next[deckNumber][ctrl]);
+                ledStatus.last[deckNumber][ctrl] = ledStatus.next[deckNumber][ctrl];
             }
         }
     }
 };
 
 setLedsOff = function () {
-    var deckKeys = Object.keys(ledStatus.current);
+    var deckKeys = Object.keys(ledStatus.next);
 
     for (deck_i = 0; deck_i < deckKeys.length; deck_i++) {
         var deckNumber = deckKeys[deck_i];
-        var ctrlKeys = Object.keys(ledStatus.current[deckNumber]);
+        var ctrlKeys = Object.keys(ledStatus.next[deckNumber]);
 
         for (ctrl_i = 0; ctrl_i < ctrlKeys.length; ctrl_i++) {
             var ctrl = ctrlKeys[ctrl_i];
@@ -244,15 +244,15 @@ setLedsOff = function () {
 };
 
 setLedOn = function (deckNumber, ctrl) {
-    ledStatus.current[deckNumber][ctrl] = true;
+    ledStatus.next[deckNumber][ctrl] = true;
 };
 
 setLedOff = function (deckNumber, ctrl) {
-    ledStatus.current[deckNumber][ctrl] = false;
+    ledStatus.next[deckNumber][ctrl] = false;
 };
 
 setLedValue = function (deckNumber, ctrl, value) {
-    ledStatus.current[deckNumber][ctrl] = value ? true : false;
+    ledStatus.next[deckNumber][ctrl] = value ? true : false;
 };
 
 setPadLedOn = function (deckNumber, ctrl) {
@@ -275,6 +275,33 @@ setPadLedOff = function (deckNumber, ctrl) {
     }
 };
 
+var KnobMode = {
+    eqHigh: 0,
+    eqMiddle: 1,
+    eqLow: 2,
+    effect1: 3,
+    effect2: 4,
+    effect3: 5,
+};
+
+var knobStatusArray = [
+    { ctrl: Ctrl.eqHigh, status: { mode: KnobMode.eqHigh, centered: true } },
+    { ctrl: Ctrl.eqMiddle, status: { mode: KnobMode.eqMiddle, centered: true } },
+    { ctrl: Ctrl.eqLow, status: { mode: KnobMode.eqLow, centered: true } },
+];
+
+var knobStatus = {
+    1: {},
+    2: {},
+};
+
+setEqKnobMode = function (deckNumber, ctrl, knobMode) {
+    knobStatus[deckNumber][ctrl].mode.next = knobMode;
+    if (knobStatus[deckNumber][ctrl].centered) {
+        knobStatus[deckNumber][ctrl].mode.last = knobMode;
+    }
+};
+
 var otherDeck = {
     1: 2,
     2: 1,
@@ -294,15 +321,6 @@ var BottomPadsMode = {
     padFx: 3,
 };
 
-var KnobMode = {
-    eqHigh: 0,
-    eqMiddle: 1,
-    eqLow: 2,
-    effect1: 3,
-    effect2: 4,
-    effect3: 5,
-};
-
 var mode = {
     master: false,
     choosePadMode: false,
@@ -316,9 +334,6 @@ var mode = {
     1: {
         topPads: TopPadsMode.hotcues1,
         bottomPads: BottomPadsMode.padFx,
-        eqHighKnob: KnobMode.eqHigh,
-        eqMiddleKnob: KnobMode.eqMiddle,
-        eqLowKnob: KnobMode.eqLow,
         shift: false,
         status: {
             trackSamples: -1, // 0 if not loaded (init with -1 so that it is always different from any possible value)
@@ -347,9 +362,6 @@ var mode = {
     2: {
         topPads: TopPadsMode.hotcues1,
         bottomPads: BottomPadsMode.padFx,
-        eqHighKnob: KnobMode.eqHigh,
-        eqMiddleKnob: KnobMode.eqMiddle,
-        eqLowKnob: KnobMode.eqLow,
         shift: false,
         status: {
             trackSamples: -1, // 0 if not loaded (init with -1 so that it is always different from any possible value)
@@ -415,6 +427,20 @@ setPadLedsStatus = function () {
                 mode[2].status.padLeds[ctrl][TopPadsMode.padFx] = false;
             }
         }
+
+        var knobEffectNumber = ctrl + 1;
+        if (knobEffectNumber < 4) {
+            if (engine.getParameter("[EffectRack1_EffectUnit3_Effect" + knobEffectNumber + "]", "enabled") == 1) {
+                mode[1].status.padLeds[ctrl][TopPadsMode.knobFx] = true;
+            } else {
+                mode[1].status.padLeds[ctrl][TopPadsMode.knobFx] = false;
+            }
+            if (engine.getParameter("[EffectRack1_EffectUnit4_Effect" + knobEffectNumber + "]", "enabled") == 1) {
+                mode[2].status.padLeds[ctrl][TopPadsMode.knobFx] = true;
+            } else {
+                mode[2].status.padLeds[ctrl][TopPadsMode.knobFx] = false;
+            }
+        }
     }
 
     for (var ctrl = Ctrl.pad5; ctrl <= Ctrl.pad8; ctrl++) {
@@ -446,30 +472,30 @@ setPadLedsStatus = function () {
     if (mode.transition.timerID != null) {
     } else if (mode.master) {
         for (var ctrl = Ctrl.pad1; ctrl <= Ctrl.pad8; ctrl++) {
-            ledStatus.current[1][ctrl] = mode[1].status.padLeds[ctrl][4];
+            ledStatus.next[1][ctrl] = mode[1].status.padLeds[ctrl][4];
         }
         for (var ctrl = Ctrl.pad1; ctrl <= Ctrl.pad8; ctrl++) {
-            ledStatus.current[2][ctrl] = mode[2].status.padLeds[ctrl][4];
+            ledStatus.next[2][ctrl] = mode[2].status.padLeds[ctrl][4];
         }
     } else if (mode.choosePadMode) {
         for (var ctrl = Ctrl.pad1; ctrl <= Ctrl.pad8; ctrl++) {
-            ledStatus.current[1][ctrl] = false;
+            ledStatus.next[1][ctrl] = false;
         }
         for (var ctrl = Ctrl.pad1; ctrl <= Ctrl.pad8; ctrl++) {
-            ledStatus.current[2][ctrl] = false;
+            ledStatus.next[2][ctrl] = false;
         }
     } else {
         for (var ctrl = Ctrl.pad1; ctrl <= Ctrl.pad4; ctrl++) {
-            ledStatus.current[1][ctrl] = mode[1].status.padLeds[ctrl][mode[1].topPads];
+            ledStatus.next[1][ctrl] = mode[1].status.padLeds[ctrl][mode[1].topPads];
         }
         for (var ctrl = Ctrl.pad1; ctrl <= Ctrl.pad4; ctrl++) {
-            ledStatus.current[2][ctrl] = mode[2].status.padLeds[ctrl][mode[2].topPads];
+            ledStatus.next[2][ctrl] = mode[2].status.padLeds[ctrl][mode[2].topPads];
         }
         for (var ctrl = Ctrl.pad5; ctrl <= Ctrl.pad8; ctrl++) {
-            ledStatus.current[1][ctrl] = mode[1].status.padLeds[ctrl][mode[1].bottomPads];
+            ledStatus.next[1][ctrl] = mode[1].status.padLeds[ctrl][mode[1].bottomPads];
         }
         for (var ctrl = Ctrl.pad5; ctrl <= Ctrl.pad8; ctrl++) {
-            ledStatus.current[2][ctrl] = mode[2].status.padLeds[ctrl][mode[2].bottomPads];
+            ledStatus.next[2][ctrl] = mode[2].status.padLeds[ctrl][mode[2].bottomPads];
         }
     }
 };
@@ -542,16 +568,78 @@ crossfaderEventHandler = function (deckNumber, fullValue) {
     engine.setParameter("[Master]", "crossfader", fullValue / BYTE_DATA_MAX_FULL_VALUE);
 };
 
+setEqKnobValue = function (deckNumber, ctrl, pos) {
+    switch (knobStatus[deckNumber][ctrl].mode.last) {
+        case KnobMode.eqHigh:
+            engine.setParameter("[EqualizerRack1_[Channel" + deckNumber + "]_Effect1]", "parameter3", pos);
+            break;
+        case KnobMode.eqMiddle:
+            engine.setParameter("[EqualizerRack1_[Channel" + deckNumber + "]_Effect1]", "parameter2", pos);
+            break;
+        case KnobMode.eqLow:
+            engine.setParameter("[EqualizerRack1_[Channel" + deckNumber + "]_Effect1]", "parameter1", pos);
+            break;
+        case KnobMode.effect1:
+            if (pos <= 0.5) {
+                engine.setParameter("[EqualizerRack1_[Channel" + deckNumber + "]_Effect1]", "parameter3", pos);
+            } else if (pos >= 0.5) {
+                engine.setParameter("[EffectRack1_EffectUnit" + (deckNumber + 2) + "_Effect1]", "meta", (2 * pos) - 1);
+            }
+            break;
+        case KnobMode.effect2:
+            if (pos <= 0.5) {
+                engine.setParameter("[EqualizerRack1_[Channel" + deckNumber + "]_Effect1]", "parameter2", pos);
+            } else if (pos >= 0.5) {
+                engine.setParameter("[EffectRack1_EffectUnit" + (deckNumber + 2) + "_Effect2]", "meta", (2 * pos) - 1);
+            }
+            break;
+        case KnobMode.effect3:
+            if (pos <= 0.5) {
+                engine.setParameter("[EqualizerRack1_[Channel" + deckNumber + "]_Effect1]", "parameter1", pos);
+            } else if (pos >= 0.5) {
+                engine.setParameter("[EffectRack1_EffectUnit" + (deckNumber + 2) + "_Effect3]", "meta", (2 * pos) - 1);
+            }
+            break;
+    }
+};
+
 eqHighEventHandler = function (deckNumber, fullValue) {
-    engine.setParameter("[EqualizerRack1_[Channel" + deckNumber + "]_Effect1]", "parameter3", fullValue / BYTE_DATA_MAX_FULL_VALUE);
+    var pos = fullValue / BYTE_DATA_MAX_FULL_VALUE;
+    if (((pos * 1000) | 0) / 1000 == 0.5) {
+        knobStatus[deckNumber][Ctrl.eqHigh].centered = true;
+    } else {
+        knobStatus[deckNumber][Ctrl.eqHigh].centered = false;
+    }
+    if (knobStatus[deckNumber][Ctrl.eqHigh].centered) {
+        knobStatus[deckNumber][Ctrl.eqHigh].mode.last = knobStatus[deckNumber][Ctrl.eqHigh].mode.next
+    }
+    setEqKnobValue(deckNumber, Ctrl.eqHigh, pos);
 };
 
 eqMiddleEventHandler = function (deckNumber, fullValue) {
-    engine.setParameter("[EqualizerRack1_[Channel" + deckNumber + "]_Effect1]", "parameter2", fullValue / BYTE_DATA_MAX_FULL_VALUE);
+    var pos = fullValue / BYTE_DATA_MAX_FULL_VALUE;
+    if (((pos * 1000) | 0) / 1000 == 0.5) {
+        knobStatus[deckNumber][Ctrl.eqMiddle].centered = true;
+    } else {
+        knobStatus[deckNumber][Ctrl.eqMiddle].centered = false;
+    }
+    if (knobStatus[deckNumber][Ctrl.eqMiddle].centered) {
+        knobStatus[deckNumber][Ctrl.eqMiddle].mode.last = knobStatus[deckNumber][Ctrl.eqMiddle].mode.next
+    }
+    setEqKnobValue(deckNumber, Ctrl.eqMiddle, fullValue / BYTE_DATA_MAX_FULL_VALUE);
 };
 
 eqLowEventHandler = function (deckNumber, fullValue) {
-    engine.setParameter("[EqualizerRack1_[Channel" + deckNumber + "]_Effect1]", "parameter1", fullValue / BYTE_DATA_MAX_FULL_VALUE);
+    var pos = fullValue / BYTE_DATA_MAX_FULL_VALUE;
+    if (((pos * 1000) | 0) / 1000 == 0.5) {
+        knobStatus[deckNumber][Ctrl.eqLow].centered = true;
+    } else {
+        knobStatus[deckNumber][Ctrl.eqLow].centered = false;
+    }
+    if (knobStatus[deckNumber][Ctrl.eqLow].centered) {
+        knobStatus[deckNumber][Ctrl.eqLow].mode.last = knobStatus[deckNumber][Ctrl.eqLow].mode.next
+    }
+    setEqKnobValue(deckNumber, Ctrl.eqLow, fullValue / BYTE_DATA_MAX_FULL_VALUE);
 };
 
 filterEventHandler = function (deckNumber, fullValue) {
@@ -937,11 +1025,11 @@ pad4Hotcues2EventHandler = function (deckNumber, value) {
     }
 };
 
-setPadEffect = function (deckNumber, effectNumber, on) {
+setKnobEffect = function (deckNumber, effectNumber, on) {
     if (on) {
-        engine.setParameter("[EffectRack1_EffectUnit" + deckNumber + "_Effect" + effectNumber + "]", "enabled", 1);
+        engine.setParameter("[EffectRack1_EffectUnit" + (deckNumber + 2) + "_Effect" + effectNumber + "]", "enabled", 1);
     } else {
-        engine.setParameter("[EffectRack1_EffectUnit" + deckNumber + "_Effect" + effectNumber + "]", "enabled", 0);
+        engine.setParameter("[EffectRack1_EffectUnit" + (deckNumber + 2) + "_Effect" + effectNumber + "]", "enabled", 0);
     }
 };
 
@@ -952,14 +1040,14 @@ pad1KnobFxEventHandler = function (deckNumber, value) {
         } else {
             mode[deckNumber].status.padEffectsLock[1] = false;
         }
-        setPadEffect(deckNumber, 1, true);
-        mode[deckNumber].eqHighKnob = KnobMode.effect1;
+        setKnobEffect(deckNumber, 1, true);
+        setEqKnobMode(deckNumber, Ctrl.eqHigh, KnobMode.effect1);
     } else if (!mode[deckNumber].status.padEffectsLock[1]) {
         if (mode[deckNumber].shift) {
             mode[deckNumber].status.padEffectsLock[1] = true;
         } else {
-            setPadEffect(deckNumber, 1, false);
-            mode[deckNumber].eqHighKnob = KnobMode.eqHigh;
+            setKnobEffect(deckNumber, 1, false);
+            setEqKnobMode(deckNumber, Ctrl.eqHigh, KnobMode.eqHigh);
         }
     }
 };
@@ -971,14 +1059,14 @@ pad2KnobFxEventHandler = function (deckNumber, value) {
         } else {
             mode[deckNumber].status.padEffectsLock[2] = false;
         }
-        setPadEffect(deckNumber, 2, true);
-        mode[deckNumber].eqMiddleKnob = KnobMode.effect2;
+        setKnobEffect(deckNumber, 2, true);
+        setEqKnobMode(deckNumber, Ctrl.eqMiddle, KnobMode.effect2);
     } else if (!mode[deckNumber].status.padEffectsLock[2]) {
         if (mode[deckNumber].shift) {
             mode[deckNumber].status.padEffectsLock[2] = true;
         } else {
-            setPadEffect(deckNumber, 2, false);
-            mode[deckNumber].eqMiddleKnob = KnobMode.eqMiddle;
+            setKnobEffect(deckNumber, 2, false);
+            setEqKnobMode(deckNumber, Ctrl.eqMiddle, KnobMode.eqMiddle);
         }
     }
 };
@@ -990,14 +1078,14 @@ pad3KnobFxEventHandler = function (deckNumber, value) {
         } else {
             mode[deckNumber].status.padEffectsLock[3] = false;
         }
-        setPadEffect(deckNumber, 3, true);
-        mode[deckNumber].eqLowKnob = KnobMode.effect3;
+        setKnobEffect(deckNumber, 3, true);
+        setEqKnobMode(deckNumber, Ctrl.eqLow, KnobMode.effect3);
     } else if (!mode[deckNumber].status.padEffectsLock[3]) {
         if (mode[deckNumber].shift) {
             mode[deckNumber].status.padEffectsLock[3] = true;
         } else {
-            setPadEffect(deckNumber, 3, false);
-            mode[deckNumber].eqLowKnob = KnobMode.eqLow;
+            setKnobEffect(deckNumber, 3, false);
+            setEqKnobMode(deckNumber, Ctrl.eqLow, KnobMode.eqLow);
         }
     }
 };
@@ -1007,6 +1095,14 @@ pad4KnobFxEventHandler = function (deckNumber, value) {
         setPadLedOn(deckNumber, Ctrl.pad4);
     } else {
         setPadLedOff(deckNumber, Ctrl.pad4);
+    }
+};
+
+setPadEffect = function (deckNumber, effectNumber, on) {
+    if (on) {
+        engine.setParameter("[EffectRack1_EffectUnit" + deckNumber + "_Effect" + effectNumber + "]", "enabled", 1);
+    } else {
+        engine.setParameter("[EffectRack1_EffectUnit" + deckNumber + "_Effect" + effectNumber + "]", "enabled", 0);
     }
 };
 
@@ -1228,10 +1324,10 @@ var ctrlHandlersArray = [
     { ctrl: Ctrl.pad2, handlers: topPad(pad2MasterEventHandler, pad2ChoosePadModeEventHandler, pad2Hotcues1EventHandler, pad2Hotcues2EventHandler, pad2KnobFxEventHandler, pad2PadFxEventHandler) },
     { ctrl: Ctrl.pad3, handlers: topPad(pad3MasterEventHandler, pad3ChoosePadModeEventHandler, pad3Hotcues1EventHandler, pad3Hotcues2EventHandler, pad3KnobFxEventHandler, pad3PadFxEventHandler) },
     { ctrl: Ctrl.pad4, handlers: topPad(pad4MasterEventHandler, pad4ChoosePadModeEventHandler, pad4Hotcues1EventHandler, pad4Hotcues2EventHandler, pad4KnobFxEventHandler, pad4PadFxEventHandler) },
-    { ctrl: Ctrl.pad5, handlers: bottomPad(pad5MasterEventHandler, pad5ChoosePadModeEventHandler, pad5LoopEventHandler, null, null, pad5PadFxEventHandler) },
-    { ctrl: Ctrl.pad6, handlers: bottomPad(pad6MasterEventHandler, pad6ChoosePadModeEventHandler, pad6LoopEventHandler, null, null, pad6PadFxEventHandler) },
-    { ctrl: Ctrl.pad7, handlers: bottomPad(pad7MasterEventHandler, pad7ChoosePadModeEventHandler, pad7LoopEventHandler, null, null, pad7PadFxEventHandler) },
-    { ctrl: Ctrl.pad8, handlers: bottomPad(pad8MasterEventHandler, pad8ChoosePadModeEventHandler, pad8LoopEventHandler, null, null, pad8PadFxEventHandler) },
+    { ctrl: Ctrl.pad5, handlers: bottomPad(pad5MasterEventHandler, pad5ChoosePadModeEventHandler, pad5LoopEventHandler, function () { }, function () { }, pad5PadFxEventHandler) },
+    { ctrl: Ctrl.pad6, handlers: bottomPad(pad6MasterEventHandler, pad6ChoosePadModeEventHandler, pad6LoopEventHandler, function () { }, function () { }, pad6PadFxEventHandler) },
+    { ctrl: Ctrl.pad7, handlers: bottomPad(pad7MasterEventHandler, pad7ChoosePadModeEventHandler, pad7LoopEventHandler, function () { }, function () { }, pad7PadFxEventHandler) },
+    { ctrl: Ctrl.pad8, handlers: bottomPad(pad8MasterEventHandler, pad8ChoosePadModeEventHandler, pad8LoopEventHandler, function () { }, function () { }, pad8PadFxEventHandler) },
 ];
 
 var ctrlHandlers = {};
@@ -1265,14 +1361,32 @@ DDJ200.init = function () {
 
     // ledStatus
     for (var i = 0; i < LedStatusArray[1].length; i++) {
-        ledStatus.current[1][LedStatusArray[1][i].ctrl] = LedStatusArray[1][i].status;
-        ledStatus.current[2][LedStatusArray[1][i].ctrl] = LedStatusArray[1][i].status;
+        ledStatus.next[1][LedStatusArray[1][i].ctrl] = LedStatusArray[1][i].status;
+        ledStatus.next[2][LedStatusArray[1][i].ctrl] = LedStatusArray[1][i].status;
         ledStatus.last[1][LedStatusArray[1][i].ctrl] = LedStatusArray[1][i].status;
         ledStatus.last[2][LedStatusArray[1][i].ctrl] = LedStatusArray[1][i].status;
     }
     for (var i = 0; i < LedStatusArray[0].length; i++) {
-        ledStatus.current[0][LedStatusArray[0][i].ctrl] = LedStatusArray[0][i].status;
+        ledStatus.next[0][LedStatusArray[0][i].ctrl] = LedStatusArray[0][i].status;
         ledStatus.last[0][LedStatusArray[0][i].ctrl] = LedStatusArray[0][i].status;
+    }
+
+    // knobStatus
+    for (var i = 0; i < knobStatusArray.length; i++) {
+        knobStatus[1][knobStatusArray[i].ctrl] = {
+            mode: {
+                next: knobStatusArray[i].status.mode,
+                last: knobStatusArray[i].status.mode
+            },
+            centered: knobStatusArray[i].status.centered,
+        };
+        knobStatus[2][knobStatusArray[i].ctrl] = {
+            mode: {
+                next: knobStatusArray[i].status.mode,
+                last: knobStatusArray[i].status.mode
+            },
+            centered: knobStatusArray[i].status.centered,
+        };
     }
 
     // Checking if a track is already playing
