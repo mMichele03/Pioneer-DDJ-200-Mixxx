@@ -338,6 +338,7 @@ var mode = {
         status: {
             trackSamples: -1, // 0 if not loaded (init with -1 so that it is always different from any possible value)
             trackIsPlaying: false,
+            trackBrake: false,
             onCuePosition: true,
             scratch: false,
             syncMasterDeck: 0, // 0 if off, else number of the master deck
@@ -357,6 +358,7 @@ var mode = {
                 2: false,
                 3: false,
             },
+            moveInlibraryCounter: 0,
         },
     },
     2: {
@@ -366,6 +368,7 @@ var mode = {
         status: {
             trackSamples: -1, // 0 if not loaded (init with -1 so that it is always different from any possible value)
             trackIsPlaying: false,
+            trackBrake: false,
             onCuePosition: true,
             scratch: false,
             syncMasterDeck: 0, // 0 if off, else number of the master deck
@@ -385,6 +388,7 @@ var mode = {
                 2: false,
                 3: false,
             },
+            moveInlibraryCounter: 0,
         },
     },
 };
@@ -761,6 +765,19 @@ jogWheelTurnEventHandler = function (deckNumber, value) {
     }
 };
 
+const TICKS_FOR_MOVE = 20;
+
+jogWheelTurnMasterEventHandler = function (deckNumber, value) {
+    value = (value - 64) * -1;
+
+    mode[deckNumber].status.moveInlibraryCounter++;
+
+    if (mode[deckNumber].status.moveInlibraryCounter >= TICKS_FOR_MOVE) {
+        engine.setValue("[Library]", "MoveVertical", value);
+        mode[deckNumber].status.moveInlibraryCounter = 0;
+    }
+};
+
 playEventHandler = function (deckNumber, value) {
     if (value == 0x7F) {
         if (mode[deckNumber].status.trackIsPlaying) {
@@ -844,26 +861,6 @@ centralEventHandler = function (deckNumber, value) {
                     return false;
                 }
             }, CENTRAL_TRANSITION_TIME);
-            /*
-            var counter = 0;
-            var timer = engine.beginTimer(80, function () {
-                if (counter > 0) {
-                    setLed(1, 4 - counter, false);
-                    setLed(1, 8 - counter, false);
-                    setLed(2, counter - 1, false);
-                    setLed(2, counter + 3, false);
-                }
-                if (counter < 4) {
-                    setLed(1, 3 - counter, true);
-                    setLed(1, 7 - counter, true);
-                    setLed(2, counter, true);
-                    setLed(2, counter + 4, true);
-                } else {
-                    engine.stopTimer(timer);
-                }
-                counter++;
-            });
-            */
         }
     }
 };
@@ -941,6 +938,12 @@ pad1MasterEventHandler = function (deckNumber, value) {
         }
     } else {
         setPadLedOff(deckNumber, Ctrl.pad1);
+        if (mode[deckNumber].status.trackSamples != 0) {
+            mode.master = false;
+            setLedValue(0, Ctrl.master, mode.master);
+        }
+        mode[deckNumber].topPads = TopPadsMode.hotcues1;
+        mode[deckNumber].bottomPads = BottomPadsMode.padFx;
     }
 };
 
@@ -1001,10 +1004,10 @@ pad8MasterEventHandler = function (deckNumber, value) {
 };
 
 padModeChosenTransitionHandler = function () {
-    mode.transition.onOrOffCounter++;
     if (mode.transition.onOrOffCounter >= 1) {
         return true;
     } else {
+        mode.transition.onOrOffCounter++;
         return false;
     }
 }
@@ -1282,19 +1285,22 @@ pad4PadFxEventHandler = function (deckNumber, value) {
     if (value == 0x7F) {
         setPadLedOn(deckNumber, Ctrl.pad4);
         mode[deckNumber].status.padLeds[Ctrl.pad8][BottomPadsMode.padFx] = true;
-        // engine.setValue("[Channel" + deckNumber + "]", "slip_enabled", 1);
         mode[deckNumber].status.trackIsPlaying = false;
+        mode[deckNumber].status.trackBrake = true;
         engine.brake(deckNumber, true, 50);
     } else {
         setPadLedOff(deckNumber, Ctrl.pad4);
         mode[deckNumber].status.padLeds[Ctrl.pad8][BottomPadsMode.padFx] = false;
-        mode[deckNumber].status.trackIsPlaying = true;
-        mode[deckNumber].status.onCuePosition = false;
-        if (mode[deckNumber].shift) {
-            engine.softStart(deckNumber, true, 50);
-        } else {
-            engine.brake(deckNumber, false);
-            engine.setParameter("[Channel" + deckNumber + "]", "play", 1);
+        if (mode[deckNumber].status.trackBrake) {
+            mode[deckNumber].status.trackIsPlaying = true;
+            mode[deckNumber].status.onCuePosition = false;
+            mode[deckNumber].status.trackBrake = false;
+            if (mode[deckNumber].shift) {
+                engine.softStart(deckNumber, true, 50);
+            } else {
+                engine.brake(deckNumber, false);
+                engine.setParameter("[Channel" + deckNumber + "]", "play", 1);
+            }
         }
     }
 };
@@ -1432,8 +1438,8 @@ var ctrlHandlersArray = [
     { ctrl: Ctrl.eqMiddle, handlers: genericCtrl(eqMiddleEventHandler) },
     { ctrl: Ctrl.eqLow, handlers: genericCtrl(eqLowEventHandler) },
     { ctrl: Ctrl.filter, handlers: genericCtrl(filterEventHandler) },
-    { ctrl: Ctrl.jogWheelTouch, handlers: genericCtrl(jogWheelTouchEventHandler) },
-    { ctrl: Ctrl.jogWheelTurn, handlers: genericCtrl(jogWheelTurnEventHandler) },
+    { ctrl: Ctrl.jogWheelTouch, handlers: genericAndMasterCtrl(function () { }, jogWheelTouchEventHandler) },
+    { ctrl: Ctrl.jogWheelTurn, handlers: genericAndMasterCtrl(jogWheelTurnMasterEventHandler, jogWheelTurnEventHandler) },
     { ctrl: Ctrl.play, handlers: genericCtrl(playEventHandler) },
     { ctrl: Ctrl.cue, handlers: genericCtrl(cueEventHandler) },
     { ctrl: Ctrl.shift, handlers: genericCtrl(shiftEventHandler) },
