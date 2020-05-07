@@ -1216,6 +1216,15 @@ pad3KnobFxEventHandler = function (deckNumber, value) {
 
 pad4KnobFxEventHandler = function (deckNumber, value) {
     if (value == 0x7F) {
+        setKnobEffect(deckNumber, 1, false);
+        setEqKnobMode(deckNumber, Ctrl.eqHigh, KnobMode.eqHigh);
+        mode[deckNumber].status.padEffectsLock[1] = false;
+        setKnobEffect(deckNumber, 2, false);
+        setEqKnobMode(deckNumber, Ctrl.eqMiddle, KnobMode.eqMiddle);
+        mode[deckNumber].status.padEffectsLock[2] = false;
+        setKnobEffect(deckNumber, 3, false);
+        setEqKnobMode(deckNumber, Ctrl.eqLow, KnobMode.eqLow);
+        mode[deckNumber].status.padEffectsLock[3] = false;
         setPadLedOn(deckNumber, Ctrl.pad4);
     } else {
         setPadLedOff(deckNumber, Ctrl.pad4);
