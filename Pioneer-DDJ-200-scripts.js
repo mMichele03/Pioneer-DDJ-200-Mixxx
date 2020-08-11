@@ -295,7 +295,7 @@ var knobStatus = {
     2: {},
 };
 
-setEqKnobMode = function (deckNumber, ctrl, knobMode) {
+setKnobMode = function (deckNumber, ctrl, knobMode) {
     knobStatus[deckNumber][ctrl].mode.next = knobMode;
     if (knobStatus[deckNumber][ctrl].centered) {
         knobStatus[deckNumber][ctrl].mode.last = knobMode;
@@ -633,7 +633,7 @@ valueHandler = function (deckNumber, ctrl, kind, value) {
     // print("LSB: " + data.lsb);
     // print("data: " + JSON.stringify(byteData));
 
-    // Compute the fullValue only of both msb and lsb are !null, so assign them to null
+    // Compute the fullValue only if both msb and lsb are !null, so assign them to null
     if (data.msb != null && data.lsb != null) {
         data.fullValue = data.msb << 7 | data.lsb;
         data.msb = null;
@@ -667,6 +667,7 @@ setEqKnobValue = function (deckNumber, ctrl, pos) {
             if (pos <= 0.5) {
                 engine.setParameter("[EqualizerRack1_[Channel" + deckNumber + "]_Effect1]", "parameter3", pos);
             } else if (pos >= 0.5) {
+                engine.setParameter("[EqualizerRack1_[Channel" + deckNumber + "]_Effect1]", "parameter3", 0.5);
                 engine.setParameter("[EffectRack1_EffectUnit" + (deckNumber + 2) + "_Effect1]", "meta", (2 * pos) - 1);
             }
             break;
@@ -674,6 +675,7 @@ setEqKnobValue = function (deckNumber, ctrl, pos) {
             if (pos <= 0.5) {
                 engine.setParameter("[EqualizerRack1_[Channel" + deckNumber + "]_Effect1]", "parameter2", pos);
             } else if (pos >= 0.5) {
+                engine.setParameter("[EqualizerRack1_[Channel" + deckNumber + "]_Effect1]", "parameter2", 0.5);
                 engine.setParameter("[EffectRack1_EffectUnit" + (deckNumber + 2) + "_Effect2]", "meta", (2 * pos) - 1);
             }
             break;
@@ -681,6 +683,7 @@ setEqKnobValue = function (deckNumber, ctrl, pos) {
             if (pos <= 0.5) {
                 engine.setParameter("[EqualizerRack1_[Channel" + deckNumber + "]_Effect1]", "parameter1", pos);
             } else if (pos >= 0.5) {
+                engine.setParameter("[EqualizerRack1_[Channel" + deckNumber + "]_Effect1]", "parameter1", 0.5);
                 engine.setParameter("[EffectRack1_EffectUnit" + (deckNumber + 2) + "_Effect3]", "meta", (2 * pos) - 1);
             }
             break;
@@ -733,7 +736,7 @@ filterEventHandler = function (deckNumber, fullValue) {
 // Jog wheels const
 const ALPHA = 1.0 / 8;
 const BETA = ALPHA / 32;
-const JOG_MULTIPLIER = 0.75;
+const JOG_MULTIPLIER = 0.7;
 
 jogWheelTouchEventHandler = function (deckNumber, value) {
     if (value == 0x7F) {
@@ -761,11 +764,12 @@ jogWheelTurnEventHandler = function (deckNumber, value) {
         engine.setValue("[Channel" + deckNumber + "]", 'jog', value * JOG_MULTIPLIER); // Pitch bend
         print("pitch bend");
     } else if (mode[deckNumber].status.onCuePosition) {
+        engine.scratchDisable(deckNumber);
         engine.setParameter("[Channel" + deckNumber + "]", "cue_gotoandstop", 1);
     }
 };
 
-const TICKS_FOR_MOVE = 20;
+const TICKS_FOR_MOVE = 30;
 
 jogWheelTurnMasterEventHandler = function (deckNumber, value) {
     value = (value - 64) * -1;
@@ -867,9 +871,9 @@ centralEventHandler = function (deckNumber, value) {
 
 headphoneEventHandler = function (deckNumber, value) {
     if (value == 0x7F) {
-        var NewVal = 1 - engine.getParameter("[Channel" + deckNumber + "]", "pfl");
-        engine.setParameter("[Channel" + deckNumber + "]", "pfl", NewVal);
-        setLedValue(deckNumber, Ctrl.headphone, ON * NewVal);
+        var newVal = 1 - engine.getParameter("[Channel" + deckNumber + "]", "pfl");
+        engine.setParameter("[Channel" + deckNumber + "]", "pfl", newVal);
+        setLedValue(deckNumber, Ctrl.headphone, ON * newVal);
     }
 };
 
@@ -907,8 +911,8 @@ syncMasterEventHandler = function (deckNumber, value) {
             0.16: 1.0,
             1.0: 0.06,
         };
-        var tempoRange = nextTempoRange[engine.getValue("[Channel" + deckNumber + "]", "rateRange")];
-        engine.setValue("[Channel" + deckNumber + "]", "rateRange", tempoRange);
+        var newTempoRange = nextTempoRange[engine.getValue("[Channel" + deckNumber + "]", "rateRange")];
+        engine.setValue("[Channel" + deckNumber + "]", "rateRange", newTempoRange);
     }
 };
 
@@ -1165,13 +1169,13 @@ pad1KnobFxEventHandler = function (deckNumber, value) {
             mode[deckNumber].status.padEffectsLock[1] = false;
         }
         setKnobEffect(deckNumber, 1, true);
-        setEqKnobMode(deckNumber, Ctrl.eqHigh, KnobMode.effect1);
+        setKnobMode(deckNumber, Ctrl.eqHigh, KnobMode.effect1);
     } else if (!mode[deckNumber].status.padEffectsLock[1]) {
         if (mode[deckNumber].shift) {
             mode[deckNumber].status.padEffectsLock[1] = true;
         } else {
             setKnobEffect(deckNumber, 1, false);
-            setEqKnobMode(deckNumber, Ctrl.eqHigh, KnobMode.eqHigh);
+            setKnobMode(deckNumber, Ctrl.eqHigh, KnobMode.eqHigh);
         }
     }
 };
@@ -1184,13 +1188,13 @@ pad2KnobFxEventHandler = function (deckNumber, value) {
             mode[deckNumber].status.padEffectsLock[2] = false;
         }
         setKnobEffect(deckNumber, 2, true);
-        setEqKnobMode(deckNumber, Ctrl.eqMiddle, KnobMode.effect2);
+        setKnobMode(deckNumber, Ctrl.eqMiddle, KnobMode.effect2);
     } else if (!mode[deckNumber].status.padEffectsLock[2]) {
         if (mode[deckNumber].shift) {
             mode[deckNumber].status.padEffectsLock[2] = true;
         } else {
             setKnobEffect(deckNumber, 2, false);
-            setEqKnobMode(deckNumber, Ctrl.eqMiddle, KnobMode.eqMiddle);
+            setKnobMode(deckNumber, Ctrl.eqMiddle, KnobMode.eqMiddle);
         }
     }
 };
@@ -1203,13 +1207,13 @@ pad3KnobFxEventHandler = function (deckNumber, value) {
             mode[deckNumber].status.padEffectsLock[3] = false;
         }
         setKnobEffect(deckNumber, 3, true);
-        setEqKnobMode(deckNumber, Ctrl.eqLow, KnobMode.effect3);
+        setKnobMode(deckNumber, Ctrl.eqLow, KnobMode.effect3);
     } else if (!mode[deckNumber].status.padEffectsLock[3]) {
         if (mode[deckNumber].shift) {
             mode[deckNumber].status.padEffectsLock[3] = true;
         } else {
             setKnobEffect(deckNumber, 3, false);
-            setEqKnobMode(deckNumber, Ctrl.eqLow, KnobMode.eqLow);
+            setKnobMode(deckNumber, Ctrl.eqLow, KnobMode.eqLow);
         }
     }
 };
@@ -1217,13 +1221,13 @@ pad3KnobFxEventHandler = function (deckNumber, value) {
 pad4KnobFxEventHandler = function (deckNumber, value) {
     if (value == 0x7F) {
         setKnobEffect(deckNumber, 1, false);
-        setEqKnobMode(deckNumber, Ctrl.eqHigh, KnobMode.eqHigh);
+        setKnobMode(deckNumber, Ctrl.eqHigh, KnobMode.eqHigh);
         mode[deckNumber].status.padEffectsLock[1] = false;
         setKnobEffect(deckNumber, 2, false);
-        setEqKnobMode(deckNumber, Ctrl.eqMiddle, KnobMode.eqMiddle);
+        setKnobMode(deckNumber, Ctrl.eqMiddle, KnobMode.eqMiddle);
         mode[deckNumber].status.padEffectsLock[2] = false;
         setKnobEffect(deckNumber, 3, false);
-        setEqKnobMode(deckNumber, Ctrl.eqLow, KnobMode.eqLow);
+        setKnobMode(deckNumber, Ctrl.eqLow, KnobMode.eqLow);
         mode[deckNumber].status.padEffectsLock[3] = false;
         setPadLedOn(deckNumber, Ctrl.pad4);
     } else {
