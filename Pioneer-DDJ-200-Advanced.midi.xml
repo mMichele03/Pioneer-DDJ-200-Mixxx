@@ -1,15 +1,15 @@
 <?xml version='1.0' encoding='utf-8'?>
 <MixxxControllerPreset mixxxVersion="2.0+" schemaVersion="1">
     <info>
-        <name>Pioneer DDJ-200</name>
+        <name>Pioneer DDJ-200 Advanced</name>
         <author>mMic</author>
-        <description>Pioneer DDJ-200</description>
+        <description>Pioneer DDJ-200 Advanced setup</description>
         <forums>there-isn't-any-link</forums>
         <wiki>there-isn't-any-link</wiki>
     </info>
     <controller id="DDJ-200">
         <scriptfiles>
-            <file filename="Pioneer-DDJ-200-scripts.js" functionprefix="DDJ200"/>
+            <file functionprefix="DDJ200" filename="Pioneer-DDJ-200-Advanced-scripts.js"/>
         </scriptfiles>
         <controls>
             <control>
