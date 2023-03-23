@@ -1507,6 +1507,7 @@ var PadModeFunctions = {};
 
 // "modeBanks" contains the pad modes banks indexed by pad number (inside the bank array the modes are progressively from Ctrl.pad[1] to Ctrl.pad[8])
 var modeBanks = {
+    /*
     1: [
         PadMode.hotcue[1],
         PadMode.hotcue[2],
@@ -1518,14 +1519,14 @@ var modeBanks = {
         PadMode.hotcue[8],
     ],
     2: [
-        PadMode.hotcue[1],
-        PadMode.hotcue[1],
-        PadMode.hotcue[1],
-        PadMode.hotcue[1],
-        PadMode.hotcue[2],
-        PadMode.hotcue[2],
-        PadMode.hotcue[2],
-        PadMode.hotcue[2],
+        PadMode.loop[4],
+        PadMode.loop[1],
+        PadMode.loop[0.03125],
+        PadMode.brake,
+        PadMode.loopHalve,
+        PadMode.loopToggle,
+        PadMode.loopDouble,
+        PadMode.loopInOut,
     ],
     3: [
         PadMode.loop[32],
@@ -1538,16 +1539,6 @@ var modeBanks = {
         PadMode.loop[0.25],
     ],
     4: [
-        PadMode.loop[4],
-        PadMode.loop[1],
-        PadMode.loop[0.03125],
-        PadMode.brake,
-        PadMode.loopHalve,
-        PadMode.loopToggle,
-        PadMode.loopDouble,
-        PadMode.loopInOut,
-    ],
-    5: [
         PadMode.fx[1],
         PadMode.fx[2],
         PadMode.fx[3],
@@ -1557,6 +1548,77 @@ var modeBanks = {
         PadMode.knobFx[3],
         PadMode.knobGain,
     ],
+    5: [
+        PadMode.sampler[1],
+        PadMode.sampler[2],
+        PadMode.sampler[3],
+        PadMode.sampler[4],
+        PadMode.sampler[5],
+        PadMode.sampler[6],
+        PadMode.sampler[7],
+        PadMode.sampler[8],
+    ],
+    */
+    1: [
+        PadMode.hotcue[1],
+        PadMode.hotcue[2],
+        PadMode.hotcue[3],
+        PadMode.hotcue[4],
+        PadMode.fx[1],
+        PadMode.knobFx[2],
+        PadMode.knobFx[3],
+        PadMode.killFx,
+    ],
+    2: [
+        PadMode.sampler[1],
+        PadMode.sampler[2],
+        PadMode.sampler[3],
+        PadMode.sampler[4],
+        PadMode.sampler[5],
+        PadMode.sampler[6],
+        PadMode.sampler[7],
+        PadMode.sampler[8],
+    ],
+    5: [
+        PadMode.sampler[1],
+        PadMode.sampler[2],
+        PadMode.sampler[3],
+        PadMode.sampler[4],
+        PadMode.sampler[5],
+        PadMode.sampler[6],
+        PadMode.sampler[7],
+        PadMode.sampler[8],
+    ],
+    6: [
+        PadMode.loop[4],
+        PadMode.loop[1],
+        PadMode.loop[0.03125],
+        PadMode.brake,
+        PadMode.loopHalve,
+        PadMode.loopToggle,
+        PadMode.loopDouble,
+        PadMode.loopInOut,
+    ],
+    7: [
+        PadMode.loop[32],
+        PadMode.loop[16],
+        PadMode.loop[8],
+        PadMode.loop[4],
+        PadMode.loop[2],
+        PadMode.loop[1],
+        PadMode.loop[0.5],
+        PadMode.loop[0.25],
+    ],
+    8: [
+        PadMode.fx[1],
+        PadMode.fx[2],
+        PadMode.fx[3],
+        PadMode.killFx,
+        PadMode.knobFx[1],
+        PadMode.knobFx[2],
+        PadMode.knobFx[3],
+        PadMode.knobGain,
+    ]
 };
 
 // "padsIgnoreReleases" sets the "ignoreRelease" field of every pad to "true", necessary when changing mode if a button remains pressed
