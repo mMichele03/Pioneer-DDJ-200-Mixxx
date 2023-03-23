@@ -276,14 +276,16 @@ var PadMode = {
         8: 7,
     },
 
-    sample1: 8,
-    sample2: 9,
-    sample3: 10,
-    sample4: 11,
-    sample5: 12,
-    sample6: 13,
-    sample7: 14,
-    sample8: 15,
+    sampler: {
+        1: 8,
+        2: 9,
+        3: 10,
+        4: 11,
+        5: 12,
+        6: 13,
+        7: 14,
+        8: 15,
+    },
 
     fx: {
         1: 16,
@@ -1003,6 +1005,36 @@ fxCallback = function (value, group, control) {
     }
 }
 
+samplerFromGroup = function (group) {
+    const samplerNRegexp = /([0-9]+)/g;
+    return +group.match(samplerNRegexp)[0];
+};
+
+samplerCallback = function (value, group, control) {
+    var samplerNumber = samplerFromGroup(group);
+
+    setPadsLedFromMode(1, PadMode.sampler[samplerNumber], value);
+    setPadsLedFromMode(2, PadMode.sampler[samplerNumber], value);
+};
+
+samplerCue = function (group, value) {
+    if (value) {
+        engine.setParameter(group, "cue_gotoandplay", 1);
+    } else {
+        engine.setParameter(group, "cue_gotoandstop", 1);
+    }
+};
+
+samplerActivate = function (group, value) {
+    if (value) {
+        if (!engine.getParameter(group, "play")) {
+            engine.setParameter(group, "cue_gotoandplay", 1);
+        } else {
+            engine.setParameter(group, "cue_gotoandstop", 1);
+        }
+    }
+};
+
 // "PadModeFunctionsArray" is used to fill in "PadModeFunctions" in "DDJ200.init" with the "setStatus" and "eventHandler" functions of every pad mode:
 // - "setStatus" sets the leds (often calling the "trigger()" method of a connection)
 // - "eventHandler" handles the events
@@ -1394,6 +1426,78 @@ var PadModeFunctionsArray = [
             } else {
                 scriptData[deckNumber].killFx = false;
             }
+        },
+    },
+    {
+        mode: PadMode.sampler[1],
+        setStatus: function (deckNumber, ctrl) {
+            connections[0].sampler[1].trigger();
+        },
+        eventHandler: function (deckNumber, ctrl, value) {
+            samplerActivate("[Sampler1]", value);
+        },
+    },
+    {
+        mode: PadMode.sampler[2],
+        setStatus: function (deckNumber, ctrl) {
+            connections[0].sampler[2].trigger();
+        },
+        eventHandler: function (deckNumber, ctrl, value) {
+            samplerActivate("[Sampler2]", value);
+        },
+    },
+    {
+        mode: PadMode.sampler[3],
+        setStatus: function (deckNumber, ctrl) {
+            connections[0].sampler[3].trigger();
+        },
+        eventHandler: function (deckNumber, ctrl, value) {
+            samplerActivate("[Sampler3]", value);
+        },
+    },
+    {
+        mode: PadMode.sampler[4],
+        setStatus: function (deckNumber, ctrl) {
+            connections[0].sampler[4].trigger();
+        },
+        eventHandler: function (deckNumber, ctrl, value) {
+            samplerActivate("[Sampler4]", value);
+        },
+    },
+    {
+        mode: PadMode.sampler[5],
+        setStatus: function (deckNumber, ctrl) {
+            connections[0].sampler[5].trigger();
+        },
+        eventHandler: function (deckNumber, ctrl, value) {
+            samplerActivate("[Sampler5]", value);
+        },
+    },
+    {
+        mode: PadMode.sampler[6],
+        setStatus: function (deckNumber, ctrl) {
+            connections[0].sampler[6].trigger();
+        },
+        eventHandler: function (deckNumber, ctrl, value) {
+            samplerActivate("[Sampler6]", value);
+        },
+    },
+    {
+        mode: PadMode.sampler[7],
+        setStatus: function (deckNumber, ctrl) {
+            connections[0].sampler[7].trigger();
+        },
+        eventHandler: function (deckNumber, ctrl, value) {
+            samplerActivate("[Sampler7]", value);
+        },
+    },
+    {
+        mode: PadMode.sampler[8],
+        setStatus: function (deckNumber, ctrl) {
+            connections[0].sampler[8].trigger();
+        },
+        eventHandler: function (deckNumber, ctrl, value) {
+            samplerActivate("[Sampler8]", value);
         },
     },
 ];
@@ -1827,6 +1931,14 @@ DDJ200.init = function () {
         connections[deckNumber].knobFx3 = engine.makeConnection('[EffectRack1_EffectUnit' + (deckNumber + 2) + '_Effect3]', 'enabled', fxCallback);
         connections[deckNumber].knobFx3.trigger();
     }
+
+    connections[0].sampler = {};
+
+    for (var samplerNumber = 1; samplerNumber <= 8; samplerNumber++) {
+        connections[0].sampler[samplerNumber] = engine.makeConnection('[Sampler' + samplerNumber + ']', 'play', samplerCallback);
+        connections[0].sampler[samplerNumber].trigger();
+    }
+
 
     // filling in "ctrlHandlers"
     for (var i = 0; i < ctrlHandlersArray.length; i++) {
