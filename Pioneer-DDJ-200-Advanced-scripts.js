@@ -389,6 +389,7 @@ var scriptData = {
         knobGainAct: false,
         knobGainPos: 0.5,
         killFx: false,
+        slipMode: false,
         loadedModeBank: 1,
         ctrl: {},
     },
@@ -399,6 +400,7 @@ var scriptData = {
         knobGainAct: false,
         knobGainPos: 0.5,
         killFx: false,
+        slipMode: false,
         loadedModeBank: 1,
         ctrl: {},
     },
@@ -586,7 +588,7 @@ jogWheelTouchEventHandler = function (deckNumber, ctrl, value) {
         } else {
             engine.scratchEnable(deckNumber, 400, 33 + 1 / 3, ALPHA, BETA, false);
         }
-        
+
     } else {
         if (scriptData[deckNumber].onCue) {
             engine.scratchDisable(deckNumber, false);
@@ -757,7 +759,7 @@ setMasterMode = function (on) {
 
         setLed(0, Ctrl.master, true);
         setLed(0, Ctrl.central, false);
-        
+
         masterTransition();
     } else {
         scriptData[0].generalMode = GeneralMode.normal;
@@ -1818,14 +1820,23 @@ padChoosePadModeEventHandler = function (deckNumber, ctrl, value) {
 padMasterEventHandler = function (deckNumber, ctrl, value) {
     stopTransition(true);
 
-    if (ctrl == Ctrl.pad[1]) {
-        pad1MasterEventHandler(deckNumber, ctrl, value);
+    switch (ctrl) {
+        case Ctrl.pad[1]:
+            loadTrackEventHandler(deckNumber, ctrl, value);
+            break;
+
+        case Ctrl.pad[5]:
+            slipModeEventHandler(deckNumber, ctrl, value);
+            break;
+
+        default:
+            break;
     }
 };
 
-// "pad1MasterEventHandler" is the event handler for Ctrl.pad[1] in "master" mode,
+// "loadTrackEventHandler" is the event handler for Ctrl.pad[1] in "master" mode,
 // it loads the selected track (or eject the current track, if shift is pressed)
-pad1MasterEventHandler = function (deckNumber, ctrl, value) {
+loadTrackEventHandler = function (deckNumber, ctrl, value) {
     if (value) {
         if (scriptData[0].shift != null) {
             engine.setParameter("[Channel" + deckNumber + "]", "eject", 1);
@@ -1848,6 +1859,37 @@ loadIndicatorCallback = function (value, group, control) {
             setLed(deckNumber, Ctrl.pad[1], false);
         } else {
             setLed(deckNumber, Ctrl.pad[1], true);
+        }
+    }
+};
+
+// "slipModeEventHandler" is the event handler for Ctrl.pad[5] in "master" mode,
+// it toggles slip mode
+slipModeEventHandler = function (deckNumber, ctrl, value) {
+    if (value) {
+        scriptData[deckNumber].slipMode = !scriptData[deckNumber].slipMode;
+
+        if (scriptData[deckNumber].slipMode) {
+            engine.setParameter("[Channel" + deckNumber + "]", "slip_enabled", 1);
+        } else {
+            engine.setParameter("[Channel" + deckNumber + "]", "slip_enabled", 0);
+        }
+    }
+};
+
+// "slipModeCallback" turns on the Ctrl.pad[1] led (only in "master mode"!) 
+// when a track can be successfully loaded => when it is neither playing nor cueing
+// (indeed, it is connected to the "play" control in mixxx software)
+slipModeCallback = function (value, group, control) {
+    var deckNumber = script.deckFromGroup(group);
+
+    if (scriptData[0].generalMode == GeneralMode.master) {
+        if (value) {
+            setLed(deckNumber, Ctrl.pad[5], true);
+            scriptData[deckNumber].slipMode = true;
+        } else {
+            setLed(deckNumber, Ctrl.pad[5], false);
+            scriptData[deckNumber].slipMode = false;
         }
     }
 };
@@ -1958,7 +2000,7 @@ DDJ200.init = function () {
 
         connections[deckNumber].loadIndicator = engine.makeConnection('[Channel' + deckNumber + ']', 'play', loadIndicatorCallback);
         connections[deckNumber].loadIndicator.trigger();
-        
+
         connections[deckNumber].hotcue = {};
 
         for (var hotcueNumber = 1; hotcueNumber <= 8; hotcueNumber++) {
@@ -1992,6 +2034,9 @@ DDJ200.init = function () {
         connections[deckNumber].knobFx2.trigger();
         connections[deckNumber].knobFx3 = engine.makeConnection('[EffectRack1_EffectUnit' + (deckNumber + 2) + '_Effect3]', 'enabled', fxCallback);
         connections[deckNumber].knobFx3.trigger();
+
+        connections[deckNumber].slipMode = engine.makeConnection('[Channel' + deckNumber + ']', 'slip_enabled', slipModeCallback);
+        connections[deckNumber].slipMode.trigger();
     }
 
     connections[0].sampler = {};
